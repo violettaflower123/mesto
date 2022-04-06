@@ -1,7 +1,12 @@
 .popup__error_visible {
-  display: inline;
   color: red;
   font-family: 'Inter-400', 'Arial', sans-serif;
   font-size: 12px;
   line-height: 14.52px;
+  position: absolute;
+}
+
+.popup__error_visible:last-child {
+  left: 36px;
+  bottom: -20px;
 }

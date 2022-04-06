@@ -11,7 +11,7 @@
   color: white;
   border: 0;
   border-radius: 2px;
-  margin-top: 28px;
+  margin-top: 48px;
   margin-right: 36px;
   margin-left: 36px;
   cursor: pointer;
@@ -24,6 +24,8 @@
 .popup__button:disabled {
   background-color: white;
   border: 1px solid rgba(0, 0, 0, 0.5);
+  cursor: auto;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 @media screen and (max-width: 768px) {

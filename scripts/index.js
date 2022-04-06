@@ -3,11 +3,11 @@ const placesList = document.querySelector(".elements__box");
 const cardTemplate = document.querySelector("#addPlace-template").content;
 const container = document.querySelector(".page");
 const showEditForm = container.querySelector(".popup_type_name");
-const edit = container.querySelector(".profile");
-const editButton = edit.querySelector(".profile__edit-button");
+const editNameForm = container.querySelector(".profile");
+const editButton = editNameForm.querySelector(".profile__edit-button");
 const closeButton = showEditForm.querySelector(".popup__close_name");
 const newPlaceForm = container.querySelector(".popup_type_place");
-const addPlaceButton = edit.querySelector(".profile__add-button");
+const addPlaceButton = editNameForm.querySelector(".profile__add-button");
 const closePlaceForm = newPlaceForm.querySelector(".popup__close_place");
 const newPlaceSubmit = newPlaceForm.querySelector('.popup__button_place-add');
 const formElement = document.querySelector(".popup__form");
@@ -15,14 +15,13 @@ const nameInput = formElement.querySelector(".popup__input_el_heading");
 const jobInput = formElement.querySelector(".popup__input_el_subheading");
 const profileName = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__subtitle");
-const closes = document.querySelectorAll('.popup__close');
-const opens = document.querySelectorAll('.popup-open');
+const closeButtons = document.querySelectorAll('.popup__close');
 const bigImageForm = document.querySelector('.popup_type_image');
 const images = document.querySelectorAll('.element__image');
 const bigImageClose = document.querySelector('.popup__close_image');
 const popupBigImage = bigImageForm.querySelector('.popup__big-image');
 const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
-const popup = document.querySelectorAll('.popup');
+const popupList = document.querySelectorAll('.popup');
 
 //создание карточки на основе template
 function createCard (place, link) {
@@ -36,7 +35,6 @@ function createCard (place, link) {
   cardElement.querySelector('.element__like').addEventListener('click', giveLike);
 
   cardElement.querySelector('.element__image').addEventListener('click', openBigPicture);
-
 
   return cardElement;
 };
@@ -52,8 +50,8 @@ function renderCard (place, link, placesList) {
 initialCards.forEach(card => renderCard(card.name, card.link, placesList));
 
 
-const placeContainer = document.querySelector(".popup__form_place");
-const cardContainer = document.querySelector(".element");
+const placeForm = document.querySelector(".popup__form_place");
+const placeBox = document.querySelector(".element");
 
 
 //open popups
@@ -66,13 +64,14 @@ function openPopup (popup) {
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscUp);
+  clearPopup(popup);
 };
 
 function handleCloseButtonClick (evt) {
   closePopup(evt.target.closest('.popup'));
 };
 
-closes.forEach((close) => {
+closeButtons.forEach((close) => {
   close.addEventListener('click', handleCloseButtonClick);
 });
 
@@ -84,25 +83,28 @@ function addNewPlace(evt) {
   const newLink = document.querySelector('.popup__item-link').value;
 
   renderCard(newCard, newLink, placesList);
-  evt.currentTarget.reset();
+
+  placeForm.reset();
   handleCloseButtonClick (evt);
+
 }
 
-placeContainer.addEventListener("submit", addNewPlace);
+placeForm.addEventListener("submit", addNewPlace);
 
 
 //закрытие попапа при клике на ESC
 const handleEscUp = (evt) => {
   //evt.preventDefault();
-  const activePopup = document.querySelector('.popup_opened');
-  if (evt.keyCode == '27') {
+
+  if (evt.code == 'Escape') {
+    const activePopup = document.querySelector('.popup_opened');
     closePopup(activePopup);
   }
 };
 
 
 //закрытие попапа по клику на оверлей
-popup.forEach((modalWindow) => {
+popupList.forEach((modalWindow) => {
   modalWindow.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
     closePopup(modalWindow);
@@ -148,10 +150,28 @@ function removeCard (evt) {
   evt.target.closest('.element').remove();
 };
 
+function openBigPicture (evt) {
+  popupBigImage.src = evt.currentTarget.src;
+  textFullScreen.textContent = evt.currentTarget.alt;
+  popupBigImage.alt = textFullScreen.textContent;
 
+  openPopup(bigImageForm);
+}
+
+function clearPopup (form, status) {
+  const closeButton = form.querySelector('.popup__button');
+
+  closeButton.setAttribute('disabled', status);
+}
+
+/*
 //open big picture
 function openBigPicture (evt) {
     popupBigImage.src = evt.currentTarget.src;
     textFullScreen.textContent = evt.currentTarget.parentNode.textContent;
+
     openPopup(bigImageForm);
 };
+*/
+//  textFullScreen.textContent = evt.currentTarget.parentNode.textContent;
+//textFullScreen.textContent = evt.currentTarget.closest('.element__text').textContent;

@@ -8,18 +8,16 @@
   margin-top: 40px;
 }
 
-/*
-@media screen and (max-width: 1024px) {
+
+@media screen and (max-width: 900px) {
   .profile {
-    margin-right: 48px;
-    margin-left: 48px;
+    flex-direction: column;
   }
 }
-*/
+
 @media screen and (max-width: 768px) {
   .profile {
     max-width: 768px;
-    flex-direction: column;
     margin-right: auto;
     margin-left: auto;
   }
