@@ -59,6 +59,21 @@ const placeBox = document.querySelector(".element");
 function openPopup (popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', handleEscUp);
+
+  const inputList = popup.querySelectorAll('.popup__input');
+  const errorText = popup.querySelectorAll('.popup__error');
+  const submitButton = popup.querySelector('.popup__button');
+
+  errorText.forEach((error) => {
+    error.textContent = '';
+  });
+
+  inputList.forEach((errorInput) => {
+    errorInput.classList.remove('popup__input_type_error');
+  });
+
+  toggleButtonView(submitButton);
+
 };
 
 //close popups
@@ -115,6 +130,7 @@ popupList.forEach((modalWindow) => {
 
 //name and job form
 function openPopupName() {
+formElement.reset();
 
 openPopup(showEditForm);
   nameInput.value = profileName.textContent;

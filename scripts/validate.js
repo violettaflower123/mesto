@@ -20,30 +20,30 @@ function hideError (form, input, settings) {
    const button = form.querySelector(settings.submitButtonSelector);
    const isValid = form.checkValidity();
 
-  //если форма валидна - показать кнопку
-  if (isValid) {
-    button.classList.remove(settings.inactiveButtonClass);
-    button.removeAttribute('disabled');
-  } else {
-    //а иначе - скрыть
+  //если форма невалидна - скрыть кнопку
+  if (!isValid) {
     button.classList.add(settings.inactiveButtonClass);
     button.setAttribute('disabled', false);
+  } else {
+    //если валидна - показать
+    button.classList.remove(settings.inactiveButtonClass);
+    button.removeAttribute('disabled');
   }
  };
 
 
  //очистить попап
- function clearPopup (form) {
-  const button = form.querySelector('.popup__button');
-
-  button.classList.add('.popup__button_disabled');
-  form.reset();
+ function toggleButtonView (button, settings) {
+  button.toggleAttribute('disabled');
+  button.classList.toggle('popup__button_disabled');
 };
 
 
  //слушатели
  function setEventListeners (form, settings) {
     const inputList = form.querySelectorAll(settings.inputSelector);
+    const button = form.querySelector(settings.submitButtonSelector);
+
     toggleButton(form, settings);
 
     inputList.forEach((input) => {
@@ -69,7 +69,6 @@ function hideError (form, input, settings) {
     setEventListeners(form, settings);
     toggleButton(form, settings);
   });
-
 };
 
 
