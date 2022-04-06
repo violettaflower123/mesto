@@ -22,6 +22,7 @@ const bigImageClose = document.querySelector('.popup__close_image');
 const popupBigImage = bigImageForm.querySelector('.popup__big-image');
 const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
 const popupList = document.querySelectorAll('.popup');
+const popupFormPlace = document.querySelector('.popup__form_place');
 
 //создание карточки на основе template
 function createCard (place, link) {
@@ -64,7 +65,7 @@ function openPopup (popup) {
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscUp);
-  clearPopup(popup);
+  //clearPopup(popup);
 };
 
 function handleCloseButtonClick (evt) {
@@ -102,12 +103,12 @@ const handleEscUp = (evt) => {
   }
 };
 
-
 //закрытие попапа по клику на оверлей
 popupList.forEach((modalWindow) => {
   modalWindow.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
     closePopup(modalWindow);
+    //clearPopup(modalWondow);
   }
 });
 });
@@ -124,6 +125,7 @@ editButton.addEventListener("click", openPopupName);
 
 //add-new-place form
 function openPopupPlace() {
+  popupFormPlace.reset();
   openPopup(newPlaceForm);
 };
 
@@ -158,20 +160,5 @@ function openBigPicture (evt) {
   openPopup(bigImageForm);
 }
 
-function clearPopup (form, status) {
-  const closeButton = form.querySelector('.popup__button');
 
-  closeButton.setAttribute('disabled', status);
-}
 
-/*
-//open big picture
-function openBigPicture (evt) {
-    popupBigImage.src = evt.currentTarget.src;
-    textFullScreen.textContent = evt.currentTarget.parentNode.textContent;
-
-    openPopup(bigImageForm);
-};
-*/
-//  textFullScreen.textContent = evt.currentTarget.parentNode.textContent;
-//textFullScreen.textContent = evt.currentTarget.closest('.element__text').textContent;

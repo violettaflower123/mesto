@@ -4,9 +4,10 @@
   font-size: 12px;
   line-height: 14.52px;
   position: absolute;
+  bottom: 32px;
 }
 
 .popup__error_visible:last-child {
   left: 36px;
-  bottom: -20px;
+  bottom: -27px;
 }

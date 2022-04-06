@@ -14,21 +14,31 @@ function hideError (form, input, settings) {
  span.textContent = '';
 };
 
+
 //изменение состояние кнопки
  function toggleButton (form, settings) {
    const button = form.querySelector(settings.submitButtonSelector);
    const isValid = form.checkValidity();
 
-  //если форма невалидна - скрыть кнопку
+  //если форма валидна - показать кнопку
   if (isValid) {
     button.classList.remove(settings.inactiveButtonClass);
     button.removeAttribute('disabled');
   } else {
+    //а иначе - скрыть
     button.classList.add(settings.inactiveButtonClass);
     button.setAttribute('disabled', false);
   }
-
  };
+
+
+ //очистить попап
+ function clearPopup (form) {
+  const button = form.querySelector('.popup__button');
+
+  button.classList.add('.popup__button_disabled');
+  form.reset();
+};
 
 
  //слушатели
@@ -50,6 +60,7 @@ function hideError (form, input, settings) {
 
  };
 
+
  //все формы
  function enableValidation (settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
@@ -61,6 +72,8 @@ function hideError (form, input, settings) {
 
 };
 
+
+
 enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -71,51 +84,3 @@ enableValidation({
 });
 
 
-/*
-const form = document.querySelector('.popup');
-const formInput = form.querySelector('.popup__input');
-const formError = form.querySelector(`.${formInput.id}-error`);
-
-const showInputError = (formEl, inputElement, errorMessage) => {
-  const errorElement = formEl.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_type_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__error_visible');
-};
-
-const hideInputError = (formEl, inputElement) => {
-  const errorElement = formEl.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__error_visible');
-  errorElement.textContent = '';
-};
-
-const checkInputValidity = (formEl, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(formEl, inputElement, inputElement.validationMessage);
-  } else {
-    hideInputError(formEl, inputElement);
-  }
-};
-
-form.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-});
-
-formInput.addEventListener('input', function () {
-  checkInputValidity(form, formInput);
-});
-
-function setEventListeners(formEl) {
-  const inputList = Array.from(formEl.querySelectorAll('.popup__input'));
-
-  inputList.forEach((inputElement) => {
-  inputElement.addEventListener('input', function () {
-    checkInputValidity(formEl, inputElement);
-  });
-});
-
-};
-
-setEventListeners(form);
-*/
