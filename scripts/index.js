@@ -128,13 +128,17 @@ popupList.forEach((modalWindow) => {
 
 //name and job form
 function openPopupName() {
+
 formElement.reset();
-saveButton.removeAttribute('disabled');
-saveButton.classList.remove('popup__button_disabled');
 
 openPopup(showEditForm);
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+
+  saveButton.removeAttribute('disabled');
+  saveButton.classList.remove('popup__button_disabled');
+  saveButton.classList.add('popup__button');
+
 };
 
 editButton.addEventListener("click", openPopupName);
