@@ -73,13 +73,14 @@ function openPopup (popup) {
     errorInput.classList.remove('popup__input_type_error');
   });
 
+  toggleButtonState(inputList, submitButton, popup);
+
 };
 
 //close popups
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', handleEscUp);
-  //clearPopup(popup);
 };
 
 function handleCloseButtonClick (evt) {
@@ -109,7 +110,6 @@ placeForm.addEventListener("submit", addNewPlace);
 
 //закрытие попапа при клике на ESC
 const handleEscUp = (evt) => {
-  //evt.preventDefault();
 
   if (evt.code == 'Escape') {
     const activePopup = document.querySelector('.popup_opened');
@@ -122,7 +122,6 @@ popupList.forEach((modalWindow) => {
   modalWindow.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
     closePopup(modalWindow);
-    //clearPopup(modalWondow);
   }
 });
 });
