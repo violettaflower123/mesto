@@ -23,6 +23,7 @@ const popupBigImage = bigImageForm.querySelector('.popup__big-image');
 const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
 const popupList = document.querySelectorAll('.popup');
 const popupFormPlace = document.querySelector('.popup__form_place');
+const saveButton = formElement.querySelector('.popup__button');
 
 //создание карточки на основе template
 function createCard (place, link) {
@@ -71,8 +72,6 @@ function openPopup (popup) {
   inputList.forEach((errorInput) => {
     errorInput.classList.remove('popup__input_type_error');
   });
-
-  toggleButtonView(submitButton);
 
 };
 
@@ -131,6 +130,8 @@ popupList.forEach((modalWindow) => {
 //name and job form
 function openPopupName() {
 formElement.reset();
+saveButton.removeAttribute('disabled');
+saveButton.classList.remove('popup__button_disabled');
 
 openPopup(showEditForm);
   nameInput.value = profileName.textContent;

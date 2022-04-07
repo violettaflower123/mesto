@@ -58,10 +58,10 @@
                   type="text"
                   placeholder="Введите имя"
                   name="имя"
-                  class="popup__input popup__input_el_heading"
+                  class="popup__input popup__input_el_heading popup__input_type_error"
                   minlength="2"
                   maxlength="40"/>
-                  <span class='popup__error' id='name-error'></span>
+                  <span class='popup__error popup__error_visible' id='name-error'></span>
 
                 <input
                   required
@@ -69,13 +69,13 @@
                   type="text"
                   placeholder="Введите профессию"
                   name="профессия"
-                  class="popup__input popup__input_el_subheading"
+                  class="popup__input popup__input_el_subheading popup__input_type_error"
                   minlength="2"
                   maxlength="200"/>
-                  <span class='popup__error' id='job-error'></span>
+                  <span class='popup__error popup__error_visible' id='job-error'></span>
               </fieldset>
 
-                <button type="submit" class="popup__button">Сохранить</button>
+                <button type="submit" class="popup__button popup__button_disabled">Сохранить</button>
 
             </div>
           </form>
@@ -92,7 +92,7 @@
                   type="text"
                   placeholder="Название"
                   name="название"
-                  class="popup__input popup__item-place"
+                  class="popup__input popup__item-place popup__input_type_error"
                   minlength="2"
                   maxlength="30"/>
                   <span class='popup__error popup__error_visible' id='place-error'></span>
@@ -103,11 +103,11 @@
                   required
                   placeholder="Ссылка на картинку"
                   name="ссылка"
-                  class="popup__input popup__item-link"/>
-                  <span class='popup__error' id='link-error'></span>
+                  class="popup__input popup__item-link popup__input_type_error"/>
+                  <span class='popup__error popup__error_visible' id='link-error'></span>
               </fieldset>
 
-                <button type="submit" class="popup__button popup__button_place-add">Сохранить</button>
+                <button type="submit" class="popup__button popup__button_place-add popup__button_disabled">Сохранить</button>
 
             </div>
           </form>
