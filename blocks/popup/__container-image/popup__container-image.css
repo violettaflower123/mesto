@@ -1,6 +1,6 @@
 .popup__container-image {
   max-width: 75vw;
-  height: 75vh;
+  max-height: 75vh;
   background-color: transparent;
   border-radius: 10px;
   position: relative;
@@ -20,3 +20,4 @@
     max-height: 299px;
   }
 }
+
