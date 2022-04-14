@@ -1,3 +1,5 @@
+
+/*
 //показать ошибку
 const showInputError = (form, input, errorMessage, settings) => {
   const span = form.querySelector(`#${input.id}-error`);
@@ -79,3 +81,37 @@ enableValidation({
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 });
+
+*/
+
+const settings = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
+
+//КЛАСС
+class FormValidator {
+  constructor(settings, formItem) {
+    this._formSelector = settings.formSelector;
+    this._formSelector = settings.formSelector;
+    this._inputSelector = settings.inputSelector;
+    this._submitButtonSelector = settings.submitButtonSelector;
+    this._inactiveButtonClass = settings.inactiveButtonClass;
+    this._inputErrorClass = settings.inputErrorClass;
+    this._errorClass = settings.errorClass;
+    this._formItem = formItem;
+  }
+
+  //показать ошибку
+  _showInputError() {
+    const span = this.querySelector(`#${input.id}-error`);
+    input.classList.add(this._inputErrorClass);
+    span.textContent = errorMessage;
+    span.classList.add(this._errorClass);
+  };
+
+}
