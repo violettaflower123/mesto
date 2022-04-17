@@ -1,4 +1,3 @@
-
 /*
 //показать ошибку
 const showInputError = (form, input, errorMessage, settings) => {
@@ -84,6 +83,8 @@ enableValidation({
 
 */
 
+
+
 const settings = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -93,25 +94,47 @@ const settings = {
     errorClass: 'popup__error_visible'
 };
 
-//КЛАСС
 class FormValidator {
-  constructor(settings, formItem) {
-    this._formSelector = settings.formSelector;
-    this._formSelector = settings.formSelector;
-    this._inputSelector = settings.inputSelector;
-    this._submitButtonSelector = settings.submitButtonSelector;
-    this._inactiveButtonClass = settings.inactiveButtonClass;
-    this._inputErrorClass = settings.inputErrorClass;
-    this._errorClass = settings.errorClass;
-    this._formItem = formItem;
+  constructor(settings, form) {
+    this._form = form;
+    this.formSelector = settings.formSelector;
+    this.inputSelector = settings.inputSelector;
+    this.submitButtonSelector = settings.submitButtonSelector;
+    this.inactiveButtonClass = settings.inactiveButtonClass;
+    this.inputErrorClass = settings.inputErrorClass;
+    this.errorClass = settings.errorClass;
   }
 
   //показать ошибку
-  _showInputError() {
-    const span = this.querySelector(`#${input.id}-error`);
-    input.classList.add(this._inputErrorClass);
+  _showInputError(input, errorMessage) {
+    const span = this._form.querySelector(`.${input.id}-error`);
+    input.classList.add(this.inputErrorClass);
     span.textContent = errorMessage;
-    span.classList.add(this._errorClass);
-  };
+    span.classList.add(this.errorClass);
 
+    /*
+    const span = this.form.querySelectorAll(this.errorClass);
+    span.forEach((item) => {
+      item.textContent = errorMessage;
+      item.classList.add(this.errorClass);
+    });
+
+    const errorBorder = this.form.querySelectorAll(this.inactiveButtonClass);
+    errorBorder.forEach((item) => {
+      item.classList.add(this.inputErrorClass);
+    });
+    */
+
+  }
 }
+
+const formList = Array.from(document.querySelectorAll(settings.formSelector));
+formList.forEach((form) => {
+    const validator = new FormValidator(form);
+    validator._showInputError();
+  });
+
+
+
+
+

@@ -56,6 +56,8 @@ const image = document.querySelector('.element__image');
 const element = document.querySelector('.element');
 const placeForm = document.querySelector(".popup__form_place");
 const placeBox = document.querySelector(".element");
+const form = document.querySelector('.popup__form');
+
 
 //создание карточки
 class Card {
@@ -64,7 +66,7 @@ class Card {
     this._link = link;
     this._selector = selector;
   }
-
+//получаем шаблон
   _getTemplate () {
     const cardElement = document
     .querySelector("#addPlace-template")
@@ -74,7 +76,7 @@ class Card {
 
     return cardElement;
   }
-
+//создаем карточку на основе шаблона
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
@@ -86,6 +88,7 @@ class Card {
     return this._element;
   }
 
+  //открываем картинку big size
   _openBigPicture () {
     popupBigImage.src = this._link;
     textFullScreen.textContent = this._name;
@@ -95,14 +98,18 @@ class Card {
 
   };
 
+  //удаляем карточку
   _removeCard() {
     this._element.remove();
   };
 
+  //ставим лайк
   _giveLike() {
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   };
 
+
+  //навешиваем слушатели
   _setEventListeners() {
     this._element.querySelector('.element__trash').addEventListener('click', () => {
      this._removeCard();
@@ -125,6 +132,7 @@ initialCards.forEach((item) => {
 
   placesList.prepend(cardElement);
 });
+
 
 
 
@@ -154,8 +162,8 @@ function renderCard (place, link, placesList) {
 }
 
 initialCards.forEach(card => renderCard(card.name, card.link, placesList));
-*/
 
+*/
 
 
 //open popups
@@ -175,8 +183,6 @@ function handleCloseButtonClick (evt) {
 };
 
 
-//НЕ РАБОТАЕТ
-
 //добавить новую карточку
 function addNewPlace(evt) {
   evt.preventDefault();
@@ -185,8 +191,12 @@ function addNewPlace(evt) {
   const newLink = document.querySelector('.popup__item-link').value;
 
 
+  const card = new Card(newCard, newLink);
+  const cardElement = card.generateCard();
 
-  renderCard(newCard, newLink, placesList);
+  placesList.prepend(cardElement);
+  //const cardElement = card.generateCard(newCard, newLink, placesList);
+  //renderCard(newCard, newLink, placesList);
 
   placeForm.reset();
   handleCloseButtonClick (evt);
@@ -195,6 +205,12 @@ function addNewPlace(evt) {
 
 placeForm.addEventListener("submit", addNewPlace);
 
+//сабмит при клике на Enter
+form.addEventListener('keydown', function (evt) {
+  if(evt.code === "Enter") {
+    form.submit();
+  }
+});
 
 //закрытие попапа при клике на ESC
 const handleEscUp = (evt) => {
@@ -216,8 +232,6 @@ popupList.forEach((modalWindow) => {
 
 //name and job form
 function openPopupName() {
-
-  //formElement.reset();
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
@@ -280,14 +294,14 @@ formElement.addEventListener("submit", handlerProfileSubmit);
 function giveLike (evt) {
   evt.target.classList.toggle('element__like_active');
 };
-*/
-/*
+
+
 function removeCard (evt) {
   evt.target.closest('.element').remove();
 };
-*/
 
-/*
+
+
 function openBigPicture (evt) {
   popupBigImage.src = evt.currentTarget.src;
   textFullScreen.textContent = evt.currentTarget.alt;
@@ -295,6 +309,6 @@ function openBigPicture (evt) {
 
   openPopup(bigImageForm);
 };
-
 */
+
 
