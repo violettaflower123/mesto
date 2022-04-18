@@ -1,7 +1,7 @@
 import {settings, FormValidator, thisForm} from "./FormValidator.js";
 import {Card, initialCards} from "./Card.js";
 
-
+const placesList = document.querySelector(".elements__box");
 const cardTemplate = document.querySelector("#addPlace-template").content;
 const container = document.querySelector(".page");
 const nameJobPopup = container.querySelector(".popup_type_name");
