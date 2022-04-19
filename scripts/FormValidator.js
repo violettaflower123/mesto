@@ -75,6 +75,25 @@ class FormValidator {
 		span.textContent = '';
 	}
 
+  clearErrors() {
+    const errorText = this._form.querySelectorAll('.popup__error');
+
+    errorText.forEach((error) => {
+      error.textContent = '';
+    });
+
+    this.inputList.forEach((errorInput) => {
+      errorInput.classList.remove('popup__input_type_error');
+    });
+  }
+
+  //сделать кнопку активной после перезагрузки
+  activateBtn() {
+    const submitBtn = this._form.querySelector(settings.submitButtonSelector);
+    submitBtn.removeAttribute('disabled');
+    submitBtn.classList.remove('popup__button_disabled');
+  }
+
   //запуск валидации
 	enableValidation() {
 		this._setEventListeners();
@@ -86,12 +105,16 @@ class FormValidator {
 
 }
 
-const thisForm = document.querySelectorAll(settings.formSelector);
+//валидация формы добавления нового места
+const placeForm = document.querySelector('.popup__form_place');
 
-thisForm.forEach(form => {
-	const validator = new FormValidator(form);
-	validator.enableValidation()
-});
+const placeFormValidated = new FormValidator(placeForm);
+placeFormValidated.enableValidation();
 
+//валидация формы изменения личной информации
+const nameJobPopup = document.querySelector(".popup_type_name");
 
-export { settings, FormValidator, thisForm };
+const nameFormValidated = new FormValidator(nameJobPopup);
+nameFormValidated.enableValidation();
+
+export { settings, FormValidator, placeForm, nameJobPopup , placeFormValidated , nameFormValidated };

@@ -1,10 +1,9 @@
-import {settings, FormValidator, thisForm} from "./FormValidator.js";
+import {settings, FormValidator, placeForm, nameJobPopup , placeFormValidated , nameFormValidated } from "./FormValidator.js";
 import {Card, initialCards} from "./Card.js";
 
 const placesList = document.querySelector(".elements__box");
 const cardTemplate = document.querySelector("#addPlace-template").content;
 const container = document.querySelector(".page");
-const nameJobPopup = container.querySelector(".popup_type_name");
 const profile = container.querySelector(".profile");
 const profileEditButton = profile.querySelector(".profile__edit-button");
 const profileCloseButton = nameJobPopup.querySelector(".popup__close_name");
@@ -20,14 +19,13 @@ const profileJob = document.querySelector(".profile__subtitle");
 const popupCloseButtons = document.querySelectorAll('.popup__close');
 const bigImageForm = document.querySelector('.popup_type_image');
 const bigImageClose = document.querySelector('.popup__close_image');
-const popupBigImage = bigImageForm.querySelector('.popup__big-image');
-const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
+export const popupBigImage = bigImageForm.querySelector('.popup__big-image');
+export const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
 const popupList = document.querySelectorAll('.popup');
 const popupFormPlace = document.querySelector('.popup__form_place');
 const profileSaveButton = formElement.querySelector('.popup__button');
 const image = document.querySelector('.element__image');
 const element = document.querySelector('.element');
-const placeForm = document.querySelector(".popup__form_place");
 const placeBox = document.querySelector(".element");
 const form = document.querySelector('.popup__form');
 
@@ -60,8 +58,6 @@ function addNewPlace(evt) {
   const cardElement = card.generateCard();
 
   placesList.prepend(cardElement);
-  //const cardElement = card.generateCard(newCard, newLink, placesList);
-  //renderCard(newCard, newLink, placesList);
 
   placeForm.reset();
   handleCloseButtonClick (evt);
@@ -101,20 +97,14 @@ function openPopupName() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 
-  const inputList = nameJobPopup.querySelectorAll('.popup__input');
-  const errorText = nameJobPopup.querySelectorAll('.popup__error');
-  const submitButton = nameJobPopup.querySelector('.popup__button');
 
-  errorText.forEach((error) => {
-    error.textContent = '';
-  });
-
-  inputList.forEach((errorInput) => {
-    errorInput.classList.remove('popup__input_type_error');
-  });
-
+//очищение текста ошибки
+  nameFormValidated.clearErrors();
+/*
   profileSaveButton.removeAttribute('disabled');
   profileSaveButton.classList.remove('popup__button_disabled');
+*/
+  nameFormValidated.activateBtn(nameJobPopup);
 
   openPopup(nameJobPopup);
 };
@@ -138,8 +128,7 @@ function openPopupPlace() {
     errorInput.classList.remove('popup__input_type_error');
   });
 
-  const validate = new FormValidator(newPlaceForm);
-  validate.toggleButtonState(inputList, submitButton, popupFormPlace);
+  placeFormValidated.toggleButtonState(inputList, submitButton, popupFormPlace);
 };
 
 addingPlaceButton.addEventListener("click", openPopupPlace);

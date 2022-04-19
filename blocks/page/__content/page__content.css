@@ -3,6 +3,7 @@
   max-width: 880px;
   margin: 0 auto;
   flex-direction: column;
+  min-height: 1217px;
 }
 
 
