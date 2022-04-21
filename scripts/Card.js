@@ -5,59 +5,32 @@ import {
   textFullScreen,
 } from "./index.js";
 
-const initialCards = [
-  {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
-const placesList = document.querySelector(".elements__box");
-
 //создание карточки
 class Card {
-  constructor(name, link, selector) {
+  constructor(name, link, template) {
     this._name = name;
     this._link = link;
-    this._selector = selector;
+    this._template = document.querySelector("#addPlace-template");
+    this._element = this._getTemplate();
+    this._cardImage = this._element.querySelector(".element__image");
+    this._cardText = this._element.querySelector(".element__text");
+    this._like = this._element.querySelector(".element__like");
+    this._trash = this._element.querySelector(".element__trash");
   }
+
   //получаем шаблон
   _getTemplate() {
-    const cardElement = document
-      .querySelector("#addPlace-template")
-      .content.querySelector(".element")
-      .cloneNode(true);
+    const cardElement = this._template.content.querySelector(".element").cloneNode(true);
 
     return cardElement;
   }
   //создаем карточку на основе шаблона
   generateCard() {
-    this._element = this._getTemplate();
     this._setEventListeners();
 
-    this._element.querySelector(".element__image").src = this._link;
-    this._element.querySelector(".element__text").textContent = this._name;
-    this._element.querySelector(".element__image").alt = this._name;
+    this._cardImage.src = this._link;
+    this._cardText.textContent = this._name;
+    this._cardImage.alt = this._name;
 
     return this._element;
   }
@@ -82,32 +55,22 @@ class Card {
       .querySelector(".element__like")
       .classList.toggle("element__like_active");
   }
-
   //навешиваем слушатели
   _setEventListeners() {
-    const like = this._element.querySelector(".element__like");
-    const trash = this._element.querySelector(".element__trash");
-    const cardImage = this._element.querySelector(".element__image");
 
-    trash.addEventListener("click", () => {
+    this._trash.addEventListener("click", () => {
         this._removeCard();
       });
 
-    like.addEventListener("click", () => {
+    this._like.addEventListener("click", () => {
       this._giveLike();
     });
 
-    cardImage.addEventListener("click", () => {
+    this._cardImage.addEventListener("click", () => {
         this._openBigPicture();
       });
   }
 }
 
-initialCards.forEach((item) => {
-  const card = new Card(item.name, item.link);
-  const cardElement = card.generateCard();
+export default Card ;
 
-  placesList.prepend(cardElement);
-});
-
-export { Card, initialCards };

@@ -1,3 +1,4 @@
+
 const settings = {
 	formSelector: '.popup__form',
 	inputSelector: '.popup__input',
@@ -8,8 +9,8 @@ const settings = {
 }
 
 class FormValidator {
-	constructor(form) {
-		this._form = form;
+	constructor(settings, form) {
+    this._form = form;
 		this.buttonElement = this._form.querySelector(settings.submitButtonSelector);
 		this.inputList = this._form.querySelectorAll(settings.inputSelector);
 
@@ -36,13 +37,14 @@ class FormValidator {
 		if (this.hasInvalidInput()) {
 			// сделай кнопку неактивной
 			this.buttonElement.classList.add(settings.inactiveButtonClass);
-			this.buttonElement.classList.remove(settings.submitButtonSelector);
+			//this.buttonElement.classList.remove(settings.submitButtonSelector);
 			this.buttonElement.setAttribute('disabled', false);
 		} else {
 			// иначе сделай кнопку активной
-			this.buttonElement.classList.remove(settings.inactiveButtonClass);
-			this.buttonElement.classList.add(settings.submitButtonSelector);
-			this.buttonElement.removeAttribute('disabled');
+			this.activateBtn();
+			//this.buttonElement.classList.remove(settings.inactiveButtonClass);
+			//this.buttonElement.classList.add(settings.submitButtonSelector);
+			//this.buttonElement.removeAttribute('disabled');
 		}
 	}
 
@@ -75,23 +77,17 @@ class FormValidator {
 		span.textContent = '';
 	}
 
+  //очистить текст ошибок
   clearErrors() {
-    const errorText = this._form.querySelectorAll('.popup__error');
-
-    errorText.forEach((error) => {
-      error.textContent = '';
-    });
-
-    this.inputList.forEach((errorInput) => {
-      errorInput.classList.remove('popup__input_type_error');
-    });
+  this.inputList.forEach((error) => {
+  this._hideInputError(error);
+  });
   }
 
   //сделать кнопку активной после перезагрузки
   activateBtn() {
-    const submitBtn = this._form.querySelector(settings.submitButtonSelector);
-    submitBtn.removeAttribute('disabled');
-    submitBtn.classList.remove('popup__button_disabled');
+    this.buttonElement.removeAttribute('disabled');
+    this.buttonElement.classList.remove(this._inactiveButtonClass);
   }
 
   //запуск валидации
@@ -105,16 +101,4 @@ class FormValidator {
 
 }
 
-//валидация формы добавления нового места
-const placeForm = document.querySelector('.popup__form_place');
-
-const placeFormValidated = new FormValidator(placeForm);
-placeFormValidated.enableValidation();
-
-//валидация формы изменения личной информации
-const nameJobPopup = document.querySelector(".popup_type_name");
-
-const nameFormValidated = new FormValidator(nameJobPopup);
-nameFormValidated.enableValidation();
-
-export { settings, FormValidator, placeForm, nameJobPopup , placeFormValidated , nameFormValidated };
+export { settings, FormValidator };
