@@ -38,63 +38,58 @@ const profileCloseButton = nameJobPopup.querySelector(".popup__close_name");
 const newPlaceForm = container.querySelector(".popup_type_place");
 const addingPlaceButton = profile.querySelector(".profile__add-button");
 const closingPlaceForm = newPlaceForm.querySelector(".popup__close_place");
-const newPlaceSubmit = newPlaceForm.querySelector('.popup__button_place-add');
+const newPlaceSubmit = newPlaceForm.querySelector(".popup__button_place-add");
 const profileForm = document.querySelector(".popup__form");
 const nameInput = profileForm.querySelector(".popup__input_el_heading");
 const jobInput = profileForm.querySelector(".popup__input_el_subheading");
 const profileName = document.querySelector(".profile__title");
 const profileJob = document.querySelector(".profile__subtitle");
-const popupCloseButtons = document.querySelectorAll('.popup__close');
-const bigImageForm = document.querySelector('.popup_type_image');
-const bigImageClose = document.querySelector('.popup__close_image');
-export const popupBigImage = bigImageForm.querySelector('.popup__big-image');
-export const textFullScreen = bigImageForm.querySelector('.popup__text-fullscreen');
-const popupList = document.querySelectorAll('.popup');
-const popupFormPlace = document.querySelector('.popup__form_place');
-const profileSaveButton = profileForm.querySelector('.popup__button');
-const image = document.querySelector('.element__image');
-const element = document.querySelector('.element');
+const popupCloseButtons = document.querySelectorAll(".popup__close");
+const bigImageForm = document.querySelector(".popup_type_image");
+const bigImageClose = document.querySelector(".popup__close_image");
+export const popupBigImage = bigImageForm.querySelector(".popup__big-image");
+export const textFullScreen = bigImageForm.querySelector(".popup__text-fullscreen");
+const popupList = document.querySelectorAll(".popup");
+const popupFormPlace = document.querySelector(".popup__form_place");
+const profileSaveButton = profileForm.querySelector(".popup__button");
+const image = document.querySelector(".element__image");
+const element = document.querySelector(".element");
 const placeBox = document.querySelector(".element");
-const inputPlace = document.querySelector('.popup__item-place');
-const inputLink = document.querySelector('.popup__item-link');
-const placeForm = document.querySelector('.popup__form_place');
-
+const inputPlace = document.querySelector(".popup__item-place");
+const inputLink = document.querySelector(".popup__item-link");
+const placeForm = document.querySelector(".popup__form_place");
 
 //open popups
-function openPopup (popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', handleEscUp);
-};
+function openPopup(popup) {
+  popup.classList.add("popup_opened");
+  document.addEventListener("keydown", handleEscUp);
+}
 
 //close popups
-function closePopup (popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleEscUp);
-};
+function closePopup(popup) {
+  popup.classList.remove("popup_opened");
+  document.removeEventListener("keydown", handleEscUp);
+}
 
-function handleCloseButtonClick (evt) {
-  closePopup(evt.target.closest('.popup'));
-};
+function handleCloseButtonClick(evt) {
+  closePopup(evt.target.closest(".popup"));
+}
 
 //создать карточку
-export function createCard (name, link) {
-
-  const card = new Card(name, link);
+function createCard(name, link) {
+  const card = new Card(name, link, "#addPlace-template", handleCardClick);
   const cardElement = card.generateCard();
 
   return cardElement;
-};
+}
 
 //добавить карточку в верстку
-function renderCard (place, link, placesList) {
-
+function renderCard(place, link, placesList) {
   const cardElement = createCard(place, link);
   placesList.prepend(cardElement);
-
 }
 //обработать карточки из массива
-initialCards.forEach(card => renderCard(card.name, card.link, placesList));
-
+initialCards.forEach((card) => renderCard(card.name, card.link, placesList));
 
 //добавить новую карточку
 function addNewPlace(evt) {
@@ -107,43 +102,42 @@ function addNewPlace(evt) {
   placesList.prepend(cardElement);
 
   placeForm.reset();
-  handleCloseButtonClick (evt);
-
+  handleCloseButtonClick(evt);
 }
 
 placeForm.addEventListener("submit", addNewPlace);
 
-
 //закрытие попапа при клике на ESC
 const handleEscUp = (evt) => {
-
-  if (evt.code == 'Escape') {
-    const activePopup = document.querySelector('.popup_opened');
+  if (evt.code == "Escape") {
+    const activePopup = document.querySelector(".popup_opened");
     closePopup(activePopup);
   }
 };
 
 //закрытие попапа по клику на оверлей
 popupList.forEach((modalWindow) => {
-  modalWindow.addEventListener('click', (evt) => {
-  if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
-    closePopup(modalWindow);
-  }
-});
+  modalWindow.addEventListener("click", (evt) => {
+    if (
+      evt.target.classList.contains("popup") ||
+      evt.target.classList.contains("popup__close")
+    ) {
+      closePopup(modalWindow);
+    }
+  });
 });
 
 //name and job form
 function openPopupName() {
-
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 
-//очищение текста ошибки
+  //очищение текста ошибки
   nameFormValidated.clearErrors();
   nameFormValidated.activateBtn();
 
   openPopup(nameJobPopup);
-};
+}
 
 profileEditButton.addEventListener("click", openPopupName);
 
@@ -154,10 +148,9 @@ function openPopupPlace() {
 
   placeFormValidated.clearErrors();
   placeFormValidated.toggleButtonState();
-};
+}
 
 addingPlaceButton.addEventListener("click", openPopupPlace);
-
 
 function handlerProfileSubmit(evt) {
   evt.preventDefault();
@@ -165,8 +158,15 @@ function handlerProfileSubmit(evt) {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
 
-  handleCloseButtonClick (evt);
-};
+  handleCloseButtonClick(evt);
+}
+
+function handleCardClick(name, link) {
+  popupBigImage.src = link;
+  textFullScreen.textContent = name;
+
+  openPopup(bigImageForm);
+}
 
 profileForm.addEventListener("submit", handlerProfileSubmit);
 
@@ -180,4 +180,4 @@ placeFormValidated.enableValidation();
 const nameFormValidated = new FormValidator(settings, nameJobPopup);
 nameFormValidated.enableValidation();
 
-export { bigImageForm, openPopup };
+export default openPopup;
