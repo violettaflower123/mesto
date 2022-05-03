@@ -1,4 +1,4 @@
-import openPopup from "./index.js";
+
 
 //создание карточки
 class Card {

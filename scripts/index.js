@@ -1,5 +1,7 @@
 import { settings, FormValidator } from "./FormValidator.js";
+import Section from './Section.js';
 import Card from "./Card.js";
+import { Popup, PopupWithImage } from './Popup.js';
 
 const initialCards = [
   {
@@ -59,6 +61,7 @@ const inputPlace = document.querySelector(".popup__item-place");
 const inputLink = document.querySelector(".popup__item-link");
 const placeForm = document.querySelector(".popup__form_place");
 
+/*
 //open popups
 function openPopup(popup) {
   popup.classList.add("popup_opened");
@@ -74,7 +77,8 @@ function closePopup(popup) {
 function handleCloseButtonClick(evt) {
   closePopup(evt.target.closest(".popup"));
 }
-
+*/
+/*
 //создать карточку
 function createCard(name, link) {
   const card = new Card(name, link, "#addPlace-template", handleCardClick);
@@ -90,6 +94,17 @@ function renderCard(place, link, placesList) {
 }
 //обработать карточки из массива
 initialCards.forEach((card) => renderCard(card.name, card.link, placesList));
+*/
+
+const cardList = new Section({ data: initialCards,
+  renderer: (item) => {
+    const card = new Card(item.name, item.link, "#addPlace-template", handleCardClick);
+    const cardElement = card.generateCard();
+    cardList.addItem(cardElement);
+  }
+   }, '.elements__box');
+  cardList.renderItems();
+
 
 //добавить новую карточку
 function addNewPlace(evt) {
@@ -107,14 +122,8 @@ function addNewPlace(evt) {
 
 placeForm.addEventListener("submit", addNewPlace);
 
-//закрытие попапа при клике на ESC
-const handleEscUp = (evt) => {
-  if (evt.code == "Escape") {
-    const activePopup = document.querySelector(".popup_opened");
-    closePopup(activePopup);
-  }
-};
 
+/*
 //закрытие попапа по клику на оверлей
 popupList.forEach((modalWindow) => {
   modalWindow.addEventListener("click", (evt) => {
@@ -126,6 +135,7 @@ popupList.forEach((modalWindow) => {
     }
   });
 });
+*/
 
 //name and job form
 function openPopupName() {
@@ -136,7 +146,10 @@ function openPopupName() {
   nameFormValidated.clearErrors();
   nameFormValidated.activateBtn();
 
-  openPopup(nameJobPopup);
+  //openPopup(nameJobPopup);
+  const openInfoForm = new Popup(nameJobPopup);
+  openInfoForm.openPopup();
+  openInfoForm.setEventListeners();
 }
 
 profileEditButton.addEventListener("click", openPopupName);
@@ -144,13 +157,14 @@ profileEditButton.addEventListener("click", openPopupName);
 //add-new-place form
 function openPopupPlace() {
   popupFormPlace.reset();
-  openPopup(newPlaceForm);
+  //openPopup(newPlaceForm);
 
   placeFormValidated.clearErrors();
   placeFormValidated.toggleButtonState();
 }
 
 addingPlaceButton.addEventListener("click", openPopupPlace);
+
 
 function handlerProfileSubmit(evt) {
   evt.preventDefault();
@@ -165,7 +179,9 @@ function handleCardClick(name, link) {
   popupBigImage.src = link;
   textFullScreen.textContent = name;
 
+/*
   openPopup(bigImageForm);
+  */
 }
 
 profileForm.addEventListener("submit", handlerProfileSubmit);
@@ -180,4 +196,4 @@ placeFormValidated.enableValidation();
 const nameFormValidated = new FormValidator(settings, nameJobPopup);
 nameFormValidated.enableValidation();
 
-export default openPopup;
+
