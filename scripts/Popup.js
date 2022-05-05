@@ -59,7 +59,7 @@ class PopupWithImage extends Popup {
 
 //попап с формой
 class PopupWithForm extends Popup {
-  constructor(popupSelector, handlerFormSubmit){
+  constructor(popupSelector, { handlerFormSubmit }){
     super(popupSelector);
     this._handlerFormSubmit = handlerFormSubmit;
     //this._inputList = this._popupSelector.querySelectorAll('.form__input');
@@ -81,14 +81,23 @@ class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  closePopup() {
+    //console.log(this._popupSelector);
+    super.closePopup();
+    this._popupSelector.querySelector('.popup__form').reset();
+  }
+
+
   setEventListeners() {
     super.setEventListeners();
     this._popupSelector.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handlerFormSubmit(this._getInputValues());
+      //this._handlerFormSubmit(this._getInputValues());
+      this._handlerFormSubmit();
 
       //обновить форму
-      this._popupSelector.reset();
+      //this._popupSelector.reset();
+      this.closePopup();
     });
   }
 }

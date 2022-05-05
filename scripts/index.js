@@ -62,6 +62,17 @@ const inputPlace = document.querySelector(".popup__item-place");
 const inputLink = document.querySelector(".popup__item-link");
 const placeForm = document.querySelector(".popup__form_place");
 
+//валидация формы добавления нового места
+
+const placeFormValidated = new FormValidator(settings, placeForm);
+placeFormValidated.enableValidation();
+
+//валидация формы изменения личной информации
+
+const nameFormValidated = new FormValidator(settings, nameJobPopup);
+nameFormValidated.enableValidation();
+
+
 //создание карточки
 const cardList = new Section({ data: initialCards,
   renderer: (item) => {
@@ -123,6 +134,9 @@ profileEditButton.addEventListener("click", openPopupName);
 //profileForm.addEventListener("submit", handlerFormSubmit);
 */
 
+nameInput.value = profileName.textContent;
+jobInput.value = profileJob.textContent;
+
 const personalInfoForm = new PopupWithForm(nameJobPopup, {
   handlerFormSubmit: (evt) => {
     //evt.preventDefault();
@@ -136,6 +150,9 @@ personalInfoForm.setEventListeners();
 profileEditButton.addEventListener('click', () => {
   personalInfoForm.openPopup();
 });
+
+nameFormValidated.clearErrors();
+nameFormValidated.activateBtn();
 
 //add-new-place form
 function openPopupPlace() {
@@ -177,16 +194,4 @@ function handleCardClick(name, link) {
   zoomedPic.setEventListeners();
 
 }
-
-
-//валидация формы добавления нового места
-
-const placeFormValidated = new FormValidator(settings, placeForm);
-placeFormValidated.enableValidation();
-
-//валидация формы изменения личной информации
-
-const nameFormValidated = new FormValidator(settings, nameJobPopup);
-nameFormValidated.enableValidation();
-
 
