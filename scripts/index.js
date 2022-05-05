@@ -1,7 +1,7 @@
 import { settings, FormValidator } from "./FormValidator.js";
 import Section from './Section.js';
 import Card from "./Card.js";
-import { Popup, PopupWithImage } from './Popup.js';
+import { Popup, PopupWithForm, PopupWithImage } from './Popup.js';
 
 const initialCards = [
   {
@@ -61,41 +61,7 @@ const inputPlace = document.querySelector(".popup__item-place");
 const inputLink = document.querySelector(".popup__item-link");
 const placeForm = document.querySelector(".popup__form_place");
 
-/*
-//open popups
-function openPopup(popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keydown", handleEscUp);
-}
-
-//close popups
-function closePopup(popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keydown", handleEscUp);
-}
-
-function handleCloseButtonClick(evt) {
-  closePopup(evt.target.closest(".popup"));
-}
-*/
-/*
-//создать карточку
-function createCard(name, link) {
-  const card = new Card(name, link, "#addPlace-template", handleCardClick);
-  const cardElement = card.generateCard();
-
-  return cardElement;
-}
-
-//добавить карточку в верстку
-function renderCard(place, link, placesList) {
-  const cardElement = createCard(place, link);
-  placesList.prepend(cardElement);
-}
-//обработать карточки из массива
-initialCards.forEach((card) => renderCard(card.name, card.link, placesList));
-*/
-
+//создание карточки
 const cardList = new Section({ data: initialCards,
   renderer: (item) => {
     const card = new Card(item.name, item.link, "#addPlace-template", handleCardClick);
@@ -123,19 +89,6 @@ function addNewPlace(evt) {
 placeForm.addEventListener("submit", addNewPlace);
 
 
-/*
-//закрытие попапа по клику на оверлей
-popupList.forEach((modalWindow) => {
-  modalWindow.addEventListener("click", (evt) => {
-    if (
-      evt.target.classList.contains("popup") ||
-      evt.target.classList.contains("popup__close")
-    ) {
-      closePopup(modalWindow);
-    }
-  });
-});
-*/
 
 //name and job form
 function openPopupName() {
@@ -146,18 +99,33 @@ function openPopupName() {
   nameFormValidated.clearErrors();
   nameFormValidated.activateBtn();
 
-  //openPopup(nameJobPopup);
-  const openInfoForm = new Popup(nameJobPopup);
-  openInfoForm.openPopup();
-  openInfoForm.setEventListeners();
+  //открываем попап
+  const personalInfoForm = new PopupWithForm(nameJobPopup, {
+    handlerFormSubmit: (evt) => {
+      evt.preventDefault();
+
+      profileName.textContent = nameInput.value;
+      profileJob.textContent = jobInput.value;
+    }
+  });
+  personalInfoForm.openPopup();
+  personalInfoForm.setEventListeners();
 }
 
 profileEditButton.addEventListener("click", openPopupName);
+//profileForm.addEventListener("submit", handlerProfileSubmit);
+//profileForm.addEventListener("submit", handlerFormSubmit);
 
 //add-new-place form
 function openPopupPlace() {
   popupFormPlace.reset();
   //openPopup(newPlaceForm);
+
+  //открываем попап
+  const openPlaceForm = new PopupWithForm(popupFormPlace);
+  openPlaceForm.openPopup();
+  openPlaceForm.setEventListeners();
+
 
   placeFormValidated.clearErrors();
   placeFormValidated.toggleButtonState();
@@ -165,26 +133,30 @@ function openPopupPlace() {
 
 addingPlaceButton.addEventListener("click", openPopupPlace);
 
-
+/*
+//изменение информации о пользователе
 function handlerProfileSubmit(evt) {
   evt.preventDefault();
 
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
 
-  handleCloseButtonClick(evt);
+  //handleCloseButtonClick(evt);
 }
-
+*/
+//открыть большую картинку
 function handleCardClick(name, link) {
+
   popupBigImage.src = link;
   textFullScreen.textContent = name;
+  popupBigImage.alt = name;
 
-/*
-  openPopup(bigImageForm);
-  */
+  const zoomedPic = new PopupWithImage(bigImageForm);
+  zoomedPic.openPopup({ link, name });
+  zoomedPic.setEventListeners();
+
 }
 
-profileForm.addEventListener("submit", handlerProfileSubmit);
 
 //валидация формы добавления нового места
 

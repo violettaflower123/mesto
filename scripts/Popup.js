@@ -1,5 +1,3 @@
-import { popupBigImage, textFullScreen } from "./index.js";
-
 class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
@@ -9,16 +7,12 @@ class Popup {
 
   openPopup() {
     this._popupSelector.classList.add('popup_opened');
-    console.log(this);
-    document.addEventListener("keydown", this._handleEscUp);
-    this._popupSelector.addEventListener('click', this._handleOverlay);
   }
 
   //close popups
   closePopup() {
   this._popupSelector.classList.remove("popup_opened");
   document.addEventListener("keydown", this._handleEscUp);
-  this._popupSelector.addEventListener('click', this._handleOverlay);
 }
 
   handleCloseButtonClick(evt) {
@@ -43,32 +37,64 @@ setEventListeners() {
   this._popupSelector.querySelector('.popup__close').addEventListener('click', () => {
     this.closePopup();
   })
+
+  this._popupSelector.addEventListener('click', this._handleOverlay);
 }
 }
 
 //попап с картинкой
 class PopupWithImage extends Popup {
-  constructor(popupSelector, name, link){
+  constructor(popupSelector){
     super(popupSelector);
-      this._name = name;
-    this._link = link;
+      this._img = this._popupSelector.querySelector('.popup__big-image');
+    this._caption = this._popupSelector.querySelector('.popup__text-fullscreen');
   }
 
-  openPopup() {
-    popupBigImage.src = this._link;
-    textFullScreen.textContent = this._name;
+  openPopup({ link, name}) {
+    this._img.src = link;
+    this._caption.textContent = name;
     super.openPopup();
-  }
-
-  closePopup() {
-    super.closePopup();
   }
 }
 
 //попап с формой
 class PopupWithForm extends Popup {
-  constructor(popupSelector){
+  constructor(popupSelector, handlerFormSubmit){
     super(popupSelector);
+    this._handlerFormSubmit = handlerFormSubmit;
+    //this._inputList = this._popupSelector.querySelectorAll('.form__input');
+  }
+
+  _getInputValues() {
+    // достаём все элементы полей
+    this._inputList = this._popupSelector.querySelectorAll('.form__input');
+
+    // создаём пустой объект
+    this._formValues = {};
+
+    // добавляем в этот объект значения всех полей
+    this._inputList.forEach(input => {
+      this._formValues[input.name] = input.value;
+    });
+
+    // возвращаем объект значений
+    return this._formValues;
+  }
+
+  closePopup() {
+    super.closePopup();
+    //this._popupSelector.reset();
+  }
+
+  setEventListeners() {
+    super.setEventListeners();
+    this._popupSelector.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      this._handleFormSubmit(this._getInputValues());
+
+      //обновить форму
+      this._popupSelector.reset();
+    });
   }
 
 }
