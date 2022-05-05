@@ -81,22 +81,16 @@ class PopupWithForm extends Popup {
     return this._formValues;
   }
 
-  closePopup() {
-    super.closePopup();
-    //this._popupSelector.reset();
-  }
-
   setEventListeners() {
     super.setEventListeners();
     this._popupSelector.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit(this._getInputValues());
+      this._handlerFormSubmit(this._getInputValues());
 
       //обновить форму
       this._popupSelector.reset();
     });
   }
-
 }
 
 export { Popup, PopupWithForm, PopupWithImage };

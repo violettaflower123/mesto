@@ -2,6 +2,7 @@ import { settings, FormValidator } from "./FormValidator.js";
 import Section from './Section.js';
 import Card from "./Card.js";
 import { Popup, PopupWithForm, PopupWithImage } from './Popup.js';
+import UserInfo from "./UserInfo.js";
 
 const initialCards = [
   {
@@ -89,11 +90,16 @@ function addNewPlace(evt) {
 placeForm.addEventListener("submit", addNewPlace);
 
 
-
+/*
 //name and job form
 function openPopupName() {
+  //const userInfo = new UserInfo(profileName, profileJob);
+  //userInfo.getUserInfo();
+
+
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+
 
   //очищение текста ошибки
   nameFormValidated.clearErrors();
@@ -102,7 +108,7 @@ function openPopupName() {
   //открываем попап
   const personalInfoForm = new PopupWithForm(nameJobPopup, {
     handlerFormSubmit: (evt) => {
-      evt.preventDefault();
+      //evt.preventDefault();
 
       profileName.textContent = nameInput.value;
       profileJob.textContent = jobInput.value;
@@ -115,6 +121,21 @@ function openPopupName() {
 profileEditButton.addEventListener("click", openPopupName);
 //profileForm.addEventListener("submit", handlerProfileSubmit);
 //profileForm.addEventListener("submit", handlerFormSubmit);
+*/
+
+const personalInfoForm = new PopupWithForm(nameJobPopup, {
+  handlerFormSubmit: (evt) => {
+    //evt.preventDefault();
+
+    profileName.textContent = nameInput.value;
+    profileJob.textContent = jobInput.value;
+  }
+});
+
+personalInfoForm.setEventListeners();
+profileEditButton.addEventListener('click', () => {
+  personalInfoForm.openPopup();
+});
 
 //add-new-place form
 function openPopupPlace() {
