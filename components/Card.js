@@ -1,5 +1,4 @@
 
-
 //создание карточки
 class Card {
   constructor(name, link, template, handleCardClick) {

@@ -1,8 +1,8 @@
-import { settings, FormValidator } from "./FormValidator.js";
-import Section from './Section.js';
-import Card from "./Card.js";
-import { Popup, PopupWithForm, PopupWithImage } from './Popup.js';
-import UserInfo from "./UserInfo.js";
+import { settings, FormValidator } from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Card from "../components/Card.js";
+import { Popup, PopupWithForm, PopupWithImage } from "../components/Popup.js";
+import UserInfo from "../components/UserInfo.js";
 
 const initialCards = [
   {
@@ -51,7 +51,9 @@ const popupCloseButtons = document.querySelectorAll(".popup__close");
 const bigImageForm = document.querySelector(".popup_type_image");
 const bigImageClose = document.querySelector(".popup__close_image");
 export const popupBigImage = bigImageForm.querySelector(".popup__big-image");
-export const textFullScreen = bigImageForm.querySelector(".popup__text-fullscreen");
+export const textFullScreen = bigImageForm.querySelector(
+  ".popup__text-fullscreen"
+);
 const popupList = document.querySelectorAll(".popup");
 const popupFormPlace = document.querySelector(".popup__form_place");
 const profileSaveButton = profileForm.querySelector(".popup__button");
@@ -72,18 +74,26 @@ placeFormValidated.enableValidation();
 const nameFormValidated = new FormValidator(settings, nameJobPopup);
 nameFormValidated.enableValidation();
 
-
 //создание карточки
-const cardList = new Section({ data: initialCards,
-  renderer: (item) => {
-    const card = new Card(item.name, item.link, "#addPlace-template", handleCardClick);
-    const cardElement = card.generateCard();
-    cardList.addItem(cardElement);
-  }
-   }, '.elements__box');
-  cardList.renderItems();
+const cardList = new Section(
+  {
+    data: initialCards,
+    renderer: (item) => {
+      const card = new Card(
+        item.name,
+        item.link,
+        "#addPlace-template",
+        handleCardClick
+      );
+      const cardElement = card.generateCard();
+      cardList.addItem(cardElement);
+    },
+  },
+  ".elements__box"
+);
+cardList.renderItems();
 
-
+/*
 //добавить новую карточку
 function addNewPlace(evt) {
   evt.preventDefault();
@@ -99,7 +109,7 @@ function addNewPlace(evt) {
 }
 
 placeForm.addEventListener("submit", addNewPlace);
-
+*/
 
 /*
 //name and job form
@@ -138,22 +148,21 @@ nameInput.value = profileName.textContent;
 jobInput.value = profileJob.textContent;
 
 const personalInfoForm = new PopupWithForm(nameJobPopup, {
-  handlerFormSubmit: (evt) => {
-    //evt.preventDefault();
-
+  handlerFormSubmit: () => {
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
-  }
+  },
 });
 
 personalInfoForm.setEventListeners();
-profileEditButton.addEventListener('click', () => {
+profileEditButton.addEventListener("click", () => {
   personalInfoForm.openPopup();
 });
 
 nameFormValidated.clearErrors();
 nameFormValidated.activateBtn();
 
+/*
 //add-new-place form
 function openPopupPlace() {
   popupFormPlace.reset();
@@ -170,6 +179,46 @@ function openPopupPlace() {
 }
 
 addingPlaceButton.addEventListener("click", openPopupPlace);
+*/
+
+//создать новую карточку
+function createCard(name, link) {
+  const card = new Card(name, link, "#addPlace-template", handleCardClick);
+  const cardElement = card.generateCard();
+
+  return cardElement;
+}
+
+//добавить новую карточку НЕ РАБОТАЕТ
+const placeAddForm = new PopupWithForm(newPlaceForm, {
+  handlerFormSubmit: () => {
+    const newCard = inputPlace.value;
+    const newLink = inputLink.value;
+    /*
+    const cardElement = createCard(newCard, newLink);
+    placesList.prepend(cardElement);
+    */
+const card = new Section({initialCards,
+    renderer: (newCard, newLink) => {
+      createCard(newCard, newLink);
+    },
+  },
+  ".elements__box"
+);
+card.renderOneItem();
+  },
+});
+
+//card.addItem(cardElement);
+//card.renderOneItem();
+
+placeAddForm.setEventListeners();
+addingPlaceButton.addEventListener("click", () => {
+  placeAddForm.openPopup();
+});
+
+placeFormValidated.clearErrors();
+placeFormValidated.toggleButtonState();
 
 /*
 //изменение информации о пользователе
@@ -184,7 +233,6 @@ function handlerProfileSubmit(evt) {
 */
 //открыть большую картинку
 function handleCardClick(name, link) {
-
   popupBigImage.src = link;
   textFullScreen.textContent = name;
   popupBigImage.alt = name;
@@ -192,6 +240,4 @@ function handleCardClick(name, link) {
   const zoomedPic = new PopupWithImage(bigImageForm);
   zoomedPic.openPopup({ link, name });
   zoomedPic.setEventListeners();
-
 }
-

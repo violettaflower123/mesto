@@ -65,6 +65,7 @@ class PopupWithForm extends Popup {
     //this._inputList = this._popupSelector.querySelectorAll('.form__input');
   }
 
+  /*
   _getInputValues() {
     // достаём все элементы полей
     this._inputList = this._popupSelector.querySelectorAll('.form__input');
@@ -80,7 +81,22 @@ class PopupWithForm extends Popup {
     // возвращаем объект значений
     return this._formValues;
   }
+*/
 
+getInputValues() {
+  // достаём все элементы полей
+  this._inputList = this._popupSelector.querySelectorAll('.popup__input');
+
+  const formValues = [...this._inputList].reduce((accum, input) => {
+    return {
+      ...accum,
+      [input.name]: input.value
+    }
+  }, {});
+
+  // возвращаем объект значений
+  return formValues;
+}
   closePopup() {
     //console.log(this._popupSelector);
     super.closePopup();
@@ -92,8 +108,8 @@ class PopupWithForm extends Popup {
     super.setEventListeners();
     this._popupSelector.addEventListener('submit', (evt) => {
       evt.preventDefault();
-      //this._handlerFormSubmit(this._getInputValues());
-      this._handlerFormSubmit();
+      this._handlerFormSubmit(this.getInputValues());
+      //this._handlerFormSubmit();
 
       //обновить форму
       //this._popupSelector.reset();

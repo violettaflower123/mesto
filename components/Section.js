@@ -1,6 +1,4 @@
 import Card from "./Card.js";
-//import { createCard } from "./index.js";
-//import handleCardClick from "./index.js";
 
 
 export default class Section {
@@ -18,6 +16,10 @@ renderItems() {
   this._initialArray.forEach(item => {
     this._renderer(item);
   });
+}
+
+renderOneItem(element) {
+  this._renderer(element);
 }
 
 }
