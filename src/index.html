@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./pages/index.css" />
     <title>Mesto Russia</title>
   </head>
 
@@ -19,7 +18,7 @@
             <div class="profile__box">
               <img
                 class="profile__photo"
-                src="./images/image.jpg"
+                src="<%=require('./images/image.jpg')%>"
                 alt="Жак-Ив Кусто"
               />
 
@@ -60,7 +59,7 @@
                   id="name"
                   type="text"
                   placeholder="Введите имя"
-                  name="имя"
+                  name="name"
                   class="popup__input popup__input_el_heading"
                   minlength="2"
                   maxlength="40"
@@ -75,7 +74,7 @@
                   id="job"
                   type="text"
                   placeholder="Введите профессию"
-                  name="профессия"
+                  name="profession"
                   class="popup__input popup__input_el_subheading"
                   minlength="2"
                   maxlength="200"
@@ -114,7 +113,7 @@
                   id="place"
                   type="text"
                   placeholder="Название"
-                  name="название"
+                  name="name"
                   class="popup__input popup__item-place"
                   minlength="2"
                   maxlength="30"
@@ -129,7 +128,7 @@
                   type="url"
                   required
                   placeholder="Ссылка на картинку"
-                  name="ссылка"
+                  name="link"
                   class="popup__input popup__item-link"
                 />
                 <span
@@ -176,6 +175,8 @@
       </li>
     </template>
 
-    <script type="module" src="./pages/index.js"></script>
+
+
+
   </body>
 </html>

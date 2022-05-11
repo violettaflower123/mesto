@@ -1,4 +1,3 @@
-
 //создание карточки
 class Card {
   constructor(name, link, template, handleCardClick) {
@@ -15,7 +14,9 @@ class Card {
 
   //получаем шаблон
   _getTemplate() {
-    const cardElement = this._template.content.querySelector(".element").cloneNode(true);
+    const cardElement = this._template.content
+      .querySelector(".element")
+      .cloneNode(true);
 
     return cardElement;
   }
