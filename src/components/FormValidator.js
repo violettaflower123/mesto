@@ -1,5 +1,3 @@
-import { settings } from '../utils/constants.js';
-
 class FormValidator {
   constructor(settings, form) {
     this._form = form;

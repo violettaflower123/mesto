@@ -28,8 +28,6 @@ class PopupWithForm extends Popup {
 
   //установить значения полей в форме
   setInputValues() {
-    this._inputList = this._popup.querySelectorAll('.popup__input');
-
     this._inputList[0].value = this._profileName.textContent;
     this._inputList[1].value = this._profileJob.textContent;
 
