@@ -4,13 +4,15 @@ class PopupWithForm extends Popup {
   constructor(popupSelector, { handleFormSubmit }) {
     super(popupSelector);
     this._handleFormSubmit = handleFormSubmit;
+    this._inputList = this._popup.querySelectorAll('.popup__input');
+    this._profileName = document.querySelector(".profile__title");
+    this._profileJob = document.querySelector(".profile__subtitle");
+    this._form = this._popup.querySelector(".popup__form");
   }
 
 
   getInputValues() {
-    console.log(this._popupSelector);
-    // достаём все элементы полей
-    this._inputList = this._popupSelector.querySelectorAll('.popup__input');
+    console.log(this._popup);
 
     // создаём пустой объект
     this._formValues = {};
@@ -26,40 +28,21 @@ class PopupWithForm extends Popup {
 
   //установить значения полей в форме
   setInputValues() {
-    this._inputList = this._popupSelector.querySelectorAll('.popup__input');
+    this._inputList = this._popup.querySelectorAll('.popup__input');
 
-    const profileName = document.querySelector(".profile__title");
-    const profileJob = document.querySelector(".profile__subtitle");
-
-    this._inputList[0].value = profileName.textContent;
-    this._inputList[1].value = profileJob.textContent;
+    this._inputList[0].value = this._profileName.textContent;
+    this._inputList[1].value = this._profileJob.textContent;
 
   }
 
-/*
-  getInputValues() {
-    // достаём все элементы полей
-    this._inputList = this._popupSelector.querySelectorAll(".popup__input");
-
-    const formValues = [...this._inputList].reduce((accum, input) => {
-      return {
-        ...accum,
-        [input.name]: input.value,
-      };
-    }, {});
-
-    // возвращаем объект значений
-    return formValues;
-  }
-*/
   closePopup() {
     super.closePopup();
-    this._popupSelector.querySelector(".popup__form").reset();
+    this._form.reset();
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._popupSelector.addEventListener("submit", (evt) => {
+    this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this.getInputValues());
 

@@ -1,18 +1,19 @@
 class Popup {
   constructor(popupSelector) {
-    this._popupSelector = popupSelector;
-    this._handleEscUp = this._handleEscUp.bind(this);
+    this._popup = document.querySelector(popupSelector);
+    this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlay = this._handleOverlay.bind(this);
   }
 
   openPopup() {
-    this._popupSelector.classList.add("popup_opened");
+    this._popup.classList.add("popup_opened");
+    document.addEventListener("keydown", this._handleEscClose);
   }
 
   //close popups
   closePopup() {
-    this._popupSelector.classList.remove("popup_opened");
-    document.addEventListener("keydown", this._handleEscUp);
+    this._popup.classList.remove("popup_opened");
+    document.removeEventListener('keydown', this._handleEscClose);
   }
 
   handleCloseButtonClick(evt) {
@@ -20,7 +21,7 @@ class Popup {
   }
 
   //закрытие попапа при клике на ESC
-  _handleEscUp(evt) {
+  _handleEscClose(evt) {
     if (evt.key == "Escape") {
       this.closePopup();
     }
@@ -36,13 +37,13 @@ class Popup {
   }
 
   setEventListeners() {
-    this._popupSelector
+    this._popup
       .querySelector(".popup__close")
       .addEventListener("click", () => {
         this.closePopup();
       });
 
-    this._popupSelector.addEventListener("click", this._handleOverlay);
+      this._popup.addEventListener("click", this._handleOverlay);
   }
 }
 
