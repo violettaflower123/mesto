@@ -1,11 +1,13 @@
-.profile__photo {
+.profile__photo_overlay {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  position: relative;
+  overflow: hidden;
   z-index: 1;
 }
 
-.profile__photo:before {
+.profile__photo_overlay:before {
   content:'';
   display: block;
   position: absolute;
@@ -13,11 +15,11 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #2A2C2F;
+  background-color: rgb(0, 0, 0);
   opacity: 0.3;
   transition: opacity 0.4s ease;
 }
 
-.profile__photo:hover:before {
+.profile__photo_overlay:hover:before {
   opacity: 0.8;
 }

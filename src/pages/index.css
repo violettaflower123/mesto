@@ -39,3 +39,9 @@
 @import url(../blocks/popup/__button/_disabled/popup__button_disabled.css);
 @import url(../blocks/popup/__input/_type/_error/popup__input_type_error.css);
 @import url(../blocks/popup/__error/_visible/popup__error_visible.css);
+@import url(../blocks/popup/__form/_type_delete/popup__form_type_delete.css);
+@import url(../blocks/popup/__button/_type_delete-form/popup__button_type_delete-form.css);
+@import url(../blocks/popup/__heading/_type_delete-form/popup__heading_type_delete-form.css);
+@import url(../blocks/profile/__photo/_overlay/profile__photo_overlay.css);
+@import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/popup/__form/_type_new-avatar/popup__form_type_new-avatar.css);
