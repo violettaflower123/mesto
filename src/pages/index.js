@@ -75,20 +75,7 @@ createCardsApi
   })
   .catch((err) => alert(err));
 
-/*
-//создание карточек из исходного массива
-const cardList = new Section(
-  {
-    data: initialCards,
-    renderer: (item) => {
-      const cardElement = createCard(item.name, item.link);
-      cardList.addItem(cardElement);
-    },
-  },
-  ".elements__box"
-);
-cardList.renderItems();
-*/
+
 //получим инфо о пользователе с сервера
 const userInfoApi = new Api({
   url: "https://nomoreparties.co/v1/cohort-41/users/me",

@@ -45,7 +45,7 @@ export default class Api {
       headers: this._headers
     }).then(this._errorHandler)
   }
-/*
+
     //убрать лайк
     removeLike(id) {
       return fetch(`${this._url}/${id}/likes`, {
@@ -53,6 +53,14 @@ export default class Api {
         headers: this._headers
       }).then(this._errorHandler)
     }
-    */
+
+    //смена аватарки пользователя
+    changeAvatar(avatar) {
+      return fetch(this._url, {
+        method: "PATCH",
+        headers: this._headers,
+        body: JSON.stringify(avatar)
+      }).then(this._errorHandler)
+    }
 }
 

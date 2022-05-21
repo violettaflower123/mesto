@@ -14,6 +14,9 @@ class Card {
     this._handleCardClick = handleCardClick;
     this._api = api;
     this._likes = data.likes;
+    this._owner = data.owner._id;
+    //this._user.id = data.owner._id;
+    //this._likes._id = data.likes._id;
   }
 
   //получаем шаблон
@@ -33,6 +36,14 @@ class Card {
     this._cardText.textContent = this._name;
     this._cardImage.alt = this._name;
 
+
+    if (this._likes.some((likeAuthor) => likeAuthor.id === this.owner)) {
+      this._like.classList.add("element__like_active");
+      //this.giveLike();
+      }
+
+
+
     return this._element;
   }
 
@@ -50,11 +61,10 @@ class Card {
   //количество лайков
   setNumberOfLikes() {
     this._counter.textContent = this._likes.length;
-    //this._likes.length = this._counter.textContent;
   }
 
   //ставим лайк
-  _giveLike() {
+  giveLike() {
     this._api
       .putLike(this._id)
       .then(() => {
@@ -68,21 +78,30 @@ class Card {
     //this._like.classList.toggle("element__like_active");
   }
 
+  _removeLike() {
+    this._api
+    .removeLike(this._id)
+    .then(() => {
+      this._like.classList.remove("element__like_active");
+      this._counter.textContent = this._likes.length - 1;
+    }).catch((err) => alert(err));
+  }
+
   //навешиваем слушатели
   _setEventListeners() {
     this._trash.addEventListener("click", () => {
       this._removeCard();
     });
-
+//поставить лайк
     this._like.addEventListener("click", () => {
-      this._giveLike();
+      this.giveLike();
 
     });
-/*
-    this._like.addEventListener("click", () => {
-      this._removeLike();
-    });
-*/
+//убрать лайк
+    //this._like.addEventListener("click", () => {
+      //this._removeLike();
+    //});
+
 
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._name, this._link);
