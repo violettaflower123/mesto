@@ -1,14 +1,21 @@
 import Card from "./Card.js";
 
 export default class Section {
-  constructor({ data, renderer }, containerSelector) {
-    this._initialArray = data;
+  constructor({ items, renderer }, containerSelector, api) {
+    this._initialArray = items;
     this._renderer = renderer;
-    this._container = document.querySelector(containerSelector);
+    this._container = document.querySelector(containerSelector)
+    this._api = api;
   }
 
   addItem(element) {
-    this._container.prepend(element);
+    this._container.append(element);
+  }
+
+  saveItem(name, link) {
+    this._api
+    .addCard({name: name, link: link})
+    .then((data) => this.addItem({name: data.name, link: data.link}))
   }
 
   renderItems() {

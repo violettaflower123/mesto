@@ -45,3 +45,5 @@
 @import url(../blocks/profile/__photo/_overlay/profile__photo_overlay.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
 @import url(../blocks/popup/__form/_type_new-avatar/popup__form_type_new-avatar.css);
+@import url(../blocks/element/__counter-like/element__counter-like.css);
+@import url(../blocks/element/__like-box/element__like-box.css);

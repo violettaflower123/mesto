@@ -6,7 +6,7 @@ export const settings = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
-
+/*
 export const initialCards = [
   {
     name: "Cappadocia",
@@ -33,7 +33,7 @@ export const initialCards = [
     link: "https://images.unsplash.com/photo-1571822325911-c01620a65e86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
   },
 ];
-
+*/
 export const container = document.querySelector(".page");
 export const profile = container.querySelector(".profile");
 export const profileEditButton = profile.querySelector(".profile__edit-button");
@@ -45,3 +45,5 @@ export const bigImageForm = document.querySelector(".popup_type_image");
 export const popupBigImage = bigImageForm.querySelector(".popup__big-image");
 export const textFullScreen = bigImageForm.querySelector(".popup__text-fullscreen");
 export const placeForm = document.querySelector(".popup__form_place");
+export const avatarEdit = document.querySelector('.js-new-avatar-form');
+
