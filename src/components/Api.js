@@ -27,7 +27,7 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data)
-    }).catch(this._errorHandler)
+    }).then(this._errorHandler)
   }
 
   //удалить карточку

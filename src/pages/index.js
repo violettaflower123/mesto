@@ -35,7 +35,7 @@ placeFormValidated.enableValidation();
 const nameFormValidated = new FormValidator(settings, nameJobPopup);
 nameFormValidated.enableValidation();
 
-
+const cardList = new Section();
 
 //получение данных о карточках с сервера
 const cardListApi = new Api({
@@ -60,7 +60,7 @@ function createCard(data) {
 //добавление карточек с сервера
 createCardsApi
   .then((data) => {
-    const cardList = new Section(
+    cardList.init(
       {
         items: data,
         renderer: (data) => {
@@ -84,8 +84,9 @@ const userInfoApi = new Api({
     authorization: "a0ee0daa-dcb0-4304-ba97-98bdc5d8faf1",
   },
 });
-const userData = userInfoApi.getData();
 
+const userData = userInfoApi.getData();
+console.log(userData)
 
 //инфо о пользователе
 const userInfo = new UserInfo({
@@ -120,10 +121,10 @@ profileEditButton.addEventListener("click", () => {
 const placeAddForm = new PopupWithForm(".popup_type_place", {
   handleFormSubmit: (data) => {
     const newCardApi = cardListApi.addCard(data);
-
+    console.log("placeAddForm");
     newCardApi.then((data) => {
       const card = createCard(data);
-      //cardList.addItem(card);
+      cardList.addItem(card);
 
     }).catch((err) => alert(err));
 

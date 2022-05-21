@@ -1,7 +1,7 @@
 import Card from "./Card.js";
 
 export default class Section {
-  constructor({ items, renderer }, containerSelector, api) {
+  init({ items, renderer }, containerSelector, api) {
     this._initialArray = items;
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector)
@@ -9,7 +9,7 @@ export default class Section {
   }
 
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
 
   saveItem(name, link) {
