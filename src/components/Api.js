@@ -4,21 +4,22 @@ export default class Api {
     this._headers = config.headers;
   }
 
-  //проверка на ошибки
-  _errorHandler = (res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject('Произошла ошибка');
+  _successHandler(success) {
+    return success.json();
   }
 
+  //проверка на ошибки
+  _errorHandler = (error) => {
+    return Promise.reject('Произошла ошибка');
+  }
 
   //получение данных с сервера
   getData() {
     return fetch(this._url, {
       method: "GET",
       headers: this._headers
-    }).then(this._errorHandler)
+    }).then(success => this._successHandler(success))
+      .catch(error => this._errorHandler(error))
   }
 
   //добавить новую карточку
@@ -27,7 +28,8 @@ export default class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data)
-    }).then(this._errorHandler)
+    }).then(success => this._successHandler(success))
+      .catch(error => this._errorHandler(error))
   }
 
   //удалить карточку
@@ -35,7 +37,8 @@ export default class Api {
     return fetch(`${this._url}/${id}`, {
       method: "DELETE",
       headers: this._headers
-    }).then(this._errorHandler)
+    }).then(success => this._successHandler(success))
+    .catch(error => this._errorHandler(error))
   }
 
   //поставить лайк
@@ -43,7 +46,8 @@ export default class Api {
     return fetch(`${this._url}/${id}/likes`, {
       method: "PUT",
       headers: this._headers
-    }).then(this._errorHandler)
+    }).then(success => this._successHandler(success))
+    .catch(error => this._errorHandler(error))
   }
 
     //убрать лайк
@@ -51,7 +55,8 @@ export default class Api {
       return fetch(`${this._url}/${id}/likes`, {
         method: "DELETE",
         headers: this._headers
-      }).then(this._errorHandler)
+      }).then(success => this._successHandler(success))
+      .catch(error => this._errorHandler(error))
     }
 
     //смена аватарки пользователя
@@ -60,7 +65,8 @@ export default class Api {
         method: "PATCH",
         headers: this._headers,
         body: JSON.stringify(avatar)
-      }).then(this._errorHandler)
+      }).then(success => this._successHandler(success))
+      .catch(error => this._errorHandler(error))
     }
 }
 
