@@ -60,11 +60,11 @@ export default class Api {
     }
 
     //смена аватарки пользователя
-    changeAvatar(avatar) {
-      return fetch(this._url, {
+    changeData(data) {
+      return fetch(`${this._url}/avatar`, {
         method: "PATCH",
         headers: this._headers,
-        body: JSON.stringify(avatar)
+        body: JSON.stringify(data)
       }).then(success => this._successHandler(success))
       .catch(error => this._errorHandler(error))
     }

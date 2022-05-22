@@ -46,4 +46,4 @@ export const popupBigImage = bigImageForm.querySelector(".popup__big-image");
 export const textFullScreen = bigImageForm.querySelector(".popup__text-fullscreen");
 export const placeForm = document.querySelector(".popup__form_place");
 export const avatarEdit = document.querySelector('.js-new-avatar-form');
-
+export const trashIcon = document.querySelector('.element__trash');

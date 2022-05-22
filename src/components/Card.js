@@ -1,6 +1,8 @@
 //создание карточки
+import PopupWithSubmit from "./PopupWithSubmit";
+
 class Card {
-  constructor(data, template, handleCardClick, api) {
+  constructor(data, template, handleCardClick, api, userData) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
@@ -9,14 +11,21 @@ class Card {
     this._cardImage = this._element.querySelector(".element__image");
     this._cardText = this._element.querySelector(".element__text");
     this._like = this._element.querySelector(".element__like");
+    this._likeBox = this._element.querySelector(".element__like-box");
     this._trash = this._element.querySelector(".element__trash");
     this._counter = this._element.querySelector(".element__counter-like");
     this._handleCardClick = handleCardClick;
     this._api = api;
     this._likes = data.likes;
-    this._owner = data.owner._id;
-    //this._user.id = data.owner._id;
-    //this._likes._id = data.likes._id;
+    this._ownerId = data.owner._id;
+    this._myID = userData._id;
+
+    this.setViewTrashButton()
+  }
+
+  setViewTrashButton() {
+    this.isMyCard = this._ownerId === this._myID;
+    this._trash.classList.toggle('element__trash_hidden', !this.isMyCard);
   }
 
   //получаем шаблон
@@ -36,13 +45,9 @@ class Card {
     this._cardText.textContent = this._name;
     this._cardImage.alt = this._name;
 
+    const isPostWithMyLike = (this._likes.some((likeAuthor) => likeAuthor._id === this._myID));
 
-    if (this._likes.some((likeAuthor) => likeAuthor.id === this.owner)) {
-      this._like.classList.add("element__like_active");
-      //this.giveLike();
-      }
-
-
+    this._like.classList.toggle("element__like_active", isPostWithMyLike);
 
     return this._element;
   }
@@ -58,19 +63,11 @@ class Card {
     //this._element.remove();
   }
 
-  //количество лайков
-  setNumberOfLikes() {
-    this._counter.textContent = this._likes.length;
-  }
-
   //ставим лайк
   giveLike() {
     this._api
       .putLike(this._id)
-      .then(() => {
-        this._like.classList.add("element__like_active");
-        this._counter.textContent = this._likes.length + 1;
-      })
+      .then((data) => this.setCountLikes(data.likes.length))
       .catch((err) => alert(err));
 
       console.log(this._likes);
@@ -80,28 +77,39 @@ class Card {
 
   _removeLike() {
     this._api
-    .removeLike(this._id)
-    .then(() => {
-      this._like.classList.remove("element__like_active");
-      this._counter.textContent = this._likes.length - 1;
-    }).catch((err) => alert(err));
+    .removeLike(this._id).then((data) => this.setCountLikes(data.likes.length))
+    .catch((err) => alert(err));
+  }
+
+  setCountLikes(count = this._likes.length) {
+    this._counter.textContent = count;
+  }
+
+  toggleLikes(isActive) {
+    this._like.classList.toggle("element__like_active", !isActive);
+
+    isActive ? this._removeLike() : this.giveLike();
   }
 
   //навешиваем слушатели
   _setEventListeners() {
-    this._trash.addEventListener("click", () => {
-      this._removeCard();
-    });
-//поставить лайк
-    this._like.addEventListener("click", () => {
-      this.giveLike();
 
-    });
-//убрать лайк
-    //this._like.addEventListener("click", () => {
-      //this._removeLike();
-    //});
 
+    this._trash.addEventListener('click', () => {
+      const delPopup = new PopupWithSubmit('.popup_type_delete ', {
+        handleFormSubmit: () => {
+          this._removeCard()
+        }});
+
+      delPopup.setEventListeners();
+      delPopup.openPopup()
+    })
+
+  //поставить лайк
+    this._likeBox.addEventListener("click", (event) => {
+      const isActiveLike = event.target.classList.contains('element__like_active');
+      this.toggleLikes(isActiveLike);
+    });
 
     this._cardImage.addEventListener("click", () => {
       this._handleCardClick(this._name, this._link);
