@@ -8,6 +8,15 @@ class PopupWithForm extends Popup {
     this._profileName = document.querySelector(".profile__title");
     this._profileJob = document.querySelector(".profile__subtitle");
     this._form = this._popup.querySelector(".popup__form");
+    this._submitBtn = this._popup.querySelector('.popup__button');
+  }
+
+  _renderLoading(isLoading) {
+    if(isLoading) {
+      this._submitBtn.textContent = 'Сохранение...';
+    } else {
+      this._submitBtn.textContent = 'Сохранить';
+    }
   }
 
 
@@ -33,6 +42,11 @@ class PopupWithForm extends Popup {
 
   }
 
+  openPopup() {
+    super.openPopup();
+    this._renderLoading(false);
+  }
+
   closePopup() {
     super.closePopup();
     this._form.reset();
@@ -43,6 +57,7 @@ class PopupWithForm extends Popup {
     this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this.getInputValues());
+      this._renderLoading(true);
 
       //обновить форму
       this.closePopup();

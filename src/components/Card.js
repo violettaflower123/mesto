@@ -69,10 +69,6 @@ class Card {
       .putLike(this._id)
       .then((data) => this.setCountLikes(data.likes.length))
       .catch((err) => alert(err));
-
-      console.log(this._likes);
-
-    //this._like.classList.toggle("element__like_active");
   }
 
   _removeLike() {
@@ -93,7 +89,6 @@ class Card {
 
   //навешиваем слушатели
   _setEventListeners() {
-
 
     this._trash.addEventListener('click', () => {
       const delPopup = new PopupWithSubmit('.popup_type_delete ', {

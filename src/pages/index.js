@@ -25,6 +25,7 @@ import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import PopupWithSubmit from "../components/PopupWithSubmit.js";
 
+//запрос данных пользователя с сервера
 const userApi = new Api({
   url: "https://nomoreparties.co/v1/cohort-41/users/me",
   headers: {
@@ -37,10 +38,15 @@ userApi.getData().then(userData => {
   runMyApp(userData);
 });
 
+//функция, которая запускает весь сайт с данными пользователя с сервера
 function runMyApp(userData) {
 //инфо о пользователе
   const userInfo = new UserInfo(userData);
-
+/*
+  const userInfo = new UserInfo({ name: ".profile__title",
+  about: ".profile__subtitle",
+  avatar: ".profile__photo" });
+*/
 //валидация формы добавления нового места
 
   const placeFormValidated = new FormValidator(settings, placeForm);
@@ -91,22 +97,25 @@ function runMyApp(userData) {
     })
     .catch((err) => alert(err));
 
+    //ПРИ ОТКРЫТИИ ФОРМЫ ПОЛЬЗОВАТЕЛЯ И ВВЕДЕНИИ ДАННЫХ ОНИ ДОЛЖНЫ ОТПРАВЛЯТЬСЯ НА СЕРВЕР И МЕНЯТЬСЯ - НЕ РАБОТАЕТ
 //редактирование информации о пользователе
   const personalInfoForm = new PopupWithForm(".popup_type_name", {
-    handleFormSubmit: (data) => {
-      //const newProfileInfoApi = userData.addCard(data);
+    handleFormSubmit: (name, about) => {
+      const userUpdate = userApi.changeUser(name , about);
 
-      //newProfileInfoApi.then((data) => {
-      //userInfo.setUserInfo(data);
-      //}).catch((err) => {alert(err)
-      //});
-      //userInfo.setUserInfo(data);
+      userUpdate.then(data => {
+        userInfo.setUserInfo({ name: data.name, about: data.about });
+      })
+      .catch((err) => alert(err));
+
+
     },
   });
 
   personalInfoForm.setEventListeners();
+  //при клике на карандашик - открытие формы + валидация + заполнение полей инпутов данными со страницы
   profileEditButton.addEventListener("click", () => {
-    personalInfoForm.openPopup(userInfo.getUserInfo());
+    personalInfoForm.openPopup();
     //наполняем инпуты при открытии формы
     personalInfoForm.setInputValues();
     //userInfo.getUserInfo(personalInfoForm);
@@ -157,14 +166,17 @@ function runMyApp(userData) {
   }
   */
 
-  //НЕ РАБОТАЕТ
+  ////ПРИ КЛИКЕ НА АВАТАРКУ И ВВЕДЕНИИ ССЫЛКИ ОНА ДОЛЖНА ОТПРАВЛЯТЬСЯ НА СЕРВЕР И МЕНЯТЬСЯ - НЕ РАБОТАЕТ
 //попап для изменения аватарки пользователя
   const avatarPopup = new PopupWithForm(".popup_type_new-avatar", {
     handleFormSubmit: (avatar) => {
-      const avatarApi = userApi.changeData(avatar);
+      const avatarApi = userApi.changeAvatar(avatar);
+
       avatarApi.then(avatar => {
         userInfo.setUserInfo(avatar);
       })
+      .catch((err) => alert(err));
+
 
     },
   });

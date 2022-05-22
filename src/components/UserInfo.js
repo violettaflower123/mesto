@@ -1,3 +1,4 @@
+//А МОЖНО КАК-ТО ЭТИ ПЕРЕМЕННЫЕ ВЫНЕСТИ ИЗ МОДУЛЯ? ЭТО БУДЕТ ОШИБКА
 const SEL = {
   name: ".profile__title",
   about: ".profile__subtitle",
@@ -6,10 +7,16 @@ const SEL = {
 
 export default class UserInfo {
   constructor(data) {
+
     this._name = document.querySelector(SEL.name);
     this._about = document.querySelector(SEL.about);
     this._avatar = document.querySelector(SEL.avatar);
 
+/*
+this._name = document.querySelector(data.name);
+this._about = document.querySelector(data.about);
+this._avatar = document.querySelector(data.avatar);
+*/
     this.setUserInfo(data)
   }
 
@@ -27,7 +34,5 @@ export default class UserInfo {
     this._id = data._id;
   }
 
-  setUserAvatar(data) {
-    this._avatar.src = data;
-  }
+
 }
