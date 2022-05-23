@@ -491,6 +491,15 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  z-index: 1;
+  background-color: #2A2C2F;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+
+.profile__photo:hover{
+  opacity: 0.2;
 }
 
 .profile__box {
@@ -684,6 +693,10 @@
   opacity: 50%;
 }
 
+.element__trash_hidden {
+  display: none;
+}
+
 .elements__box {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(145px, 282px));
@@ -767,7 +780,6 @@
   width: 22px;
   height: 19px;
   background-repeat: no-repeat;
-  margin-right: 19px;
   align-self: center;
   cursor: pointer;
   border: none;
@@ -1086,6 +1098,105 @@
 .popup__error_visible:last-child {
   left: 36px;
   bottom: -27px;
+}
+
+.popup__form_type_delete {
+  min-height: 181px;
+}
+
+@media screen and (max-width: 768px) {
+  .popup__form_type_delete {
+    max-width: 282px;
+    min-height: 322px;
+  }
+}
+
+.popup__button_type_delete-form {
+  margin-top: 38px;
+}
+
+.popup__heading_type_delete-form {
+  padding-bottom: 0px;
+}
+
+.profile__photo_overlay {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  transition: 0.1s;
+}
+
+.profile__photo_overlay:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%);
+  background-image: url(46061f616d9db93c1d8f.png);
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+.profile__photo_overlay:hover.profile__photo_overlay:before {
+  opacity: 0.8;
+}
+
+.profile__avatar {
+  display: none;
+  background-image: url(46061f616d9db93c1d8f.png);
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  top: 47px;
+  left: 47px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.25s, opacity 0.25s linear;
+  z-index: 10;
+}
+
+.profile__avatar:hover {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup__form_type_new-avatar {
+    min-height: 272px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .popup__form_type_new-avatar {
+      max-width: 282px;
+      min-height: 322px;
+    }
+  }
+
+.element__counter-like {
+  font-family: "Inter-400", "Arial", sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 15.73px;
+  text-align: center;
+  margin: 0;
+  padding-top: 3px;
+}
+
+.element__like-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 19px;
+  margin-top: 15px;
 }
 
 
