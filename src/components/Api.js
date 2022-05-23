@@ -1,5 +1,3 @@
-//сделаю тот новый метод позже, пока непонятно
-
 export default class Api {
   constructor(config) {
     this._url = config.url;
