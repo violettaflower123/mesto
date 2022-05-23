@@ -69,22 +69,22 @@ export default class Api {
   //два разных метода patch , потому что разные url
 
   //смена аватарки пользователя https://mesto.nomoreparties.co/v1/cohort-41/users/me/avatar
-  changeAvatar(avatar) {
+  changeAvatar(data) {
     return fetch(`${this._url}/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(avatar),
+      body: JSON.stringify(data),
     })
       .then((success) => this._successHandler(success))
       .catch((error) => this._errorHandler(error));
   }
 
   //смена данных пользователя https://mesto.nomoreparties.co/v1/cohort-41/users/me
-  changeUser(name, about) {
+  changeUser(data) {
     return fetch(this._url, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(name, about),
+      body: JSON.stringify(data),
     })
       .then((success) => this._successHandler(success))
       .catch((error) => this._errorHandler(error));

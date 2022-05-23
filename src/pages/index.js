@@ -100,15 +100,15 @@ function runMyApp(userData) {
     //ПРИ ОТКРЫТИИ ФОРМЫ ПОЛЬЗОВАТЕЛЯ И ВВЕДЕНИИ ДАННЫХ ОНИ ДОЛЖНЫ ОТПРАВЛЯТЬСЯ НА СЕРВЕР И МЕНЯТЬСЯ - НЕ РАБОТАЕТ
 //редактирование информации о пользователе
   const personalInfoForm = new PopupWithForm(".popup_type_name", {
-    handleFormSubmit: (name, about) => {
-      const userUpdate = userApi.changeUser(name , about);
+    handleFormSubmit: (data) => {
+      const userUpdate = userApi.changeUser(data);
+      //console.log(data);
 
       userUpdate.then(data => {
-        userInfo.setUserInfo({ name: data.name, about: data.about });
+        //console.log(data)
+        userInfo.setUserInfo(data.name, data.about)
       })
       .catch((err) => alert(err));
-
-
     },
   });
 
@@ -128,7 +128,7 @@ function runMyApp(userData) {
   const placeAddForm = new PopupWithForm(".popup_type_place", {
     handleFormSubmit: (data) => {
       const newCardApi = cardListApi.addCard(data);
-      console.log("placeAddForm");
+
       newCardApi.then((data) => {
         const card = createCard(data);
         cardList.addItem(card);
@@ -169,15 +169,13 @@ function runMyApp(userData) {
   ////ПРИ КЛИКЕ НА АВАТАРКУ И ВВЕДЕНИИ ССЫЛКИ ОНА ДОЛЖНА ОТПРАВЛЯТЬСЯ НА СЕРВЕР И МЕНЯТЬСЯ - НЕ РАБОТАЕТ
 //попап для изменения аватарки пользователя
   const avatarPopup = new PopupWithForm(".popup_type_new-avatar", {
-    handleFormSubmit: (avatar) => {
-      const avatarApi = userApi.changeAvatar(avatar);
+    handleFormSubmit: (data) => {
+      const avatarApi = userApi.changeAvatar(data);
 
-      avatarApi.then(avatar => {
-        userInfo.setUserInfo(avatar);
+      avatarApi.then(data => {
+        userInfo.setAvatar(data);
       })
       .catch((err) => alert(err));
-
-
     },
   });
 
