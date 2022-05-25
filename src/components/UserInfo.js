@@ -1,15 +1,15 @@
-import { profileInfo } from "../utils/constants.js";
+
 
 export default class UserInfo {
-  constructor(data) {
+  constructor(profileInfo) {
 
     this._name = document.querySelector(profileInfo.name);
     this._about = document.querySelector(profileInfo.about);
     this._avatar = document.querySelector(profileInfo.avatar);
 
-    this.setUserInfo(data.name, data.about);
-    this.setId(data._id);
-    this.setAvatar(data.avatar);
+    //this.setUserInfo(profileInfo.name, profileInfo.about);
+    this.setId(profileInfo._id);
+    //this.setAvatar(profileInfo.avatar);
   }
 
   getUserInfo() {

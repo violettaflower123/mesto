@@ -7,11 +7,6 @@ export const settings = {
   errorClass: "popup__error_visible",
 };
 
-export const profileInfo = {
-  name: ".profile__title",
-  about: ".profile__subtitle",
-  avatar: ".profile__photo"
-};
 
 export const container = document.querySelector(".page");
 export const profile = container.querySelector(".profile");
@@ -26,3 +21,4 @@ export const textFullScreen = bigImageForm.querySelector(".popup__text-fullscree
 export const placeForm = document.querySelector(".popup__form_place");
 export const avatarEdit = document.querySelector('.js-new-avatar-form');
 export const trashIcon = document.querySelector('.element__trash');
+export const avatarForm = document.querySelector('.popup__form_type_new-avatar');

@@ -4,6 +4,15 @@ export default class Api {
     this._headers = config.headers;
   }
 
+_errorHandler = (res) => {
+  if (res.ok) {
+    return res.json();
+  } return
+  Promise.reject('Произошла ошибка');
+}
+
+//тут тоже сказали все переделать
+/*
   _successHandler(success) {
     return success.json();
   }
@@ -12,15 +21,14 @@ export default class Api {
   _errorHandler = (error) => {
     return Promise.reject("Произошла ошибка");
   };
-
+*/
   //получение данных с сервера
   getData() {
     return fetch(this._url, {
       method: "GET",
       headers: this._headers,
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
   //добавить новую карточку
@@ -30,8 +38,7 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify(data),
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
   //удалить карточку
@@ -40,18 +47,17 @@ export default class Api {
       method: "DELETE",
       headers: this._headers,
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
+  //тут получается должен быть один метод из двух? как toggle?
   //поставить лайк
   putLike(id) {
     return fetch(`${this._url}/${id}/likes`, {
       method: "PUT",
       headers: this._headers,
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
   //убрать лайк
@@ -60,8 +66,7 @@ export default class Api {
       method: "DELETE",
       headers: this._headers,
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
   //два разных метода patch , потому что разные url
@@ -73,8 +78,7 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify(data),
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 
   //смена данных пользователя https://mesto.nomoreparties.co/v1/cohort-41/users/me
@@ -84,7 +88,6 @@ export default class Api {
       headers: this._headers,
       body: JSON.stringify(data),
     })
-      .then((success) => this._successHandler(success))
-      .catch((error) => this._errorHandler(error));
+      .then(this._errorHandler)
   }
 }

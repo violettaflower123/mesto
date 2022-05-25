@@ -1,6 +1,5 @@
 class Popup {
   constructor(popupSelector) {
-    console.log(popupSelector)
     this._popup = document.querySelector(popupSelector);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlay = this._handleOverlay.bind(this);
@@ -17,9 +16,6 @@ class Popup {
     document.removeEventListener('keydown', this._handleEscClose);
   }
 
-  handleCloseButtonClick(evt) {
-    closePopup(evt.target.closest(".popup"));
-  }
 
   //закрытие попапа при клике на ESC
   _handleEscClose(evt) {

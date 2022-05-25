@@ -11,7 +11,7 @@ class PopupWithForm extends Popup {
     this._submitBtn = this._popup.querySelector('.popup__button');
   }
 
-  _renderLoading(isLoading) {
+  renderLoading(isLoading) {
     if(isLoading) {
       this._submitBtn.textContent = 'Сохранение...';
     } else {
@@ -21,8 +21,6 @@ class PopupWithForm extends Popup {
 
 
   getInputValues() {
-    console.log(this._popup);
-
     // создаём пустой объект
     this._formValues = {};
 
@@ -44,7 +42,7 @@ class PopupWithForm extends Popup {
 
   openPopup() {
     super.openPopup();
-    this._renderLoading(false);
+    this.renderLoading(false);
   }
 
   closePopup() {
@@ -57,7 +55,6 @@ class PopupWithForm extends Popup {
     this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this.getInputValues());
-      this._renderLoading(true);
 
       //обновить форму
       this.closePopup();

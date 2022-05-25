@@ -1,8 +1,6 @@
-import Card from "./Card.js";
 
 export default class Section {
-  init({ items, renderer }, containerSelector, api) {
-    this._initialArray = items;
+  constructor({ renderer }, containerSelector, api) {
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector)
     this._api = api;
@@ -12,19 +10,10 @@ export default class Section {
     this._container.prepend(element);
   }
 
-  saveItem(name, link) {
-    this._api
-    .addCard({name: name, link: link})
-    .then((data) => this.addItem({name: data.name, link: data.link}))
-  }
-
-  renderItems() {
-    this._initialArray.forEach((item) => {
+  renderItems(items) {
+    items.forEach((item) => {
       this._renderer(item);
     });
   }
 
-  renderOneItem(element) {
-    this._renderer(element);
-  }
 }
