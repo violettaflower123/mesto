@@ -81,6 +81,22 @@ function runMyApp(userData) {
 
   const createCardsApi = cardListApi.getData();
 
+  //ждем, когда придет ответ от сервера и только потом отрисовываем карточки
+  Promise.all([
+    userApi.getData(),
+    cardListApi.getData()
+  ])
+  .then(([userData, items]) => {
+    userInfo.setUserInfo(userData.name, userData.about);
+    userInfo.setAvatar(userData.avatar);
+
+//ЧТО ЗДЕСЬ ТО ДОЛЖНО БЫТЬ
+
+
+  })
+  .catch((err) => console.log(err))
+
+
   //создать новую карточку
   function createCard(data) {
     const card = new Card(
@@ -91,9 +107,9 @@ function runMyApp(userData) {
       //лайк по карточке и удаление лайка
       {
         handleCardLike: (card) => {
-          console.log(card.id);
+          console.log(card);
           //отправляем запрос поставить лайк на сервер
-          const likesApi = cardListApi.putLike(card.id, !card.isActive);
+          const likesApi = cardListApi.putLike(card.id);
           //при успехе - сердечко черное и +1
           likesApi.then((data) => console.log(data))
           .catch((err) => alert(err));

@@ -124,14 +124,7 @@ import PopupWithSubmit from "./PopupWithSubmit";
 //handleCardLike  handleDeleteCard - коллбэки ,через которые я делаю лайк и удаление карточки в index
 //выглядеть должно именно так, через колбэки
 class Card {
-  constructor(
-    data,
-    template,
-    handleZoomedPic,
-    userData,
-    { handleCardLike },
-    { handleDeleteCard }
-  ) {
+  constructor(data, template, handleZoomedPic, userData, { handleCardLike }, { handleDeleteCard }) {
     this._name = data.name;
     this._link = data.link;
     this._id = data._id;
@@ -189,9 +182,14 @@ class Card {
     this._element.remove();
     this._element = null;
   }
+  /*
 
   setCountLikes(count = this._likes.length) {
     this._counter.textContent = count;
+  }
+  */
+  setCountLikes() {
+    this._counter.textContent = this._likes.length;
   }
 
   //ставим лайк
@@ -210,6 +208,10 @@ class Card {
     this._like.classList.toggle("element__like_active", !isActive);
 
     isActive ? this._removeLike() : this.giveLike();
+  }
+
+  toggleLike() {
+    this._like.classList.toggle("element__like_active");
   }
 
   isActive() {
