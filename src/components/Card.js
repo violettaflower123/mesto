@@ -191,7 +191,7 @@ class Card {
   setCountLikes() {
     this._counter.textContent = this._likes.length;
   }
-
+/*
   //ставим лайк
   giveLike() {
     setCountLikes(data.likes.length);
@@ -209,21 +209,22 @@ class Card {
 
     isActive ? this._removeLike() : this.giveLike();
   }
-
+*/
   toggleLike() {
     this._like.classList.toggle("element__like_active");
+    setCountLikes(data.likes.length);
   }
 
   isActive() {
     this._like.contains("element__like_active");
   }
-
+/*
   putLike() {
     const isActiveLike = this._like.contains("element__like_active");
     this.toggleLikes(isActiveLike);
     setCountLikes(data.likes.length);
   }
-
+*/
   //навешиваем слушатели
   _setEventListeners() {
     /*
@@ -240,13 +241,13 @@ class Card {
 
     //удаление
     this._trash.addEventListener("click", () => {
-      this._handleDeleteCard(this._element);
+      this._handleDeleteCard();
     });
 
     //поставить лайк
     this._likeBox.addEventListener("click", () => {
       //this.putLike(event);
-      this._handleCardLike(this._element);
+      this._handleCardLike();
     });
 
     //увеличение картинки

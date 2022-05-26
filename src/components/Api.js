@@ -69,6 +69,14 @@ _errorHandler = (res) => {
       .then(this._errorHandler)
   }
 
+
+toggleLike(id, status) {
+  return fetch(`${this._url}/${id}/likes`, {
+    method: status ? this.removeLike(id) : this.putLike(id),
+    headers: this._headers,
+  }).then(this._errorHandler)
+}
+
   //два разных метода patch , потому что разные url
 
   //смена аватарки пользователя https://mesto.nomoreparties.co/v1/cohort-41/users/me/avatar

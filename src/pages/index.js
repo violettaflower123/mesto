@@ -81,6 +81,9 @@ function runMyApp(userData) {
 
   const createCardsApi = cardListApi.getData();
 
+  //ЗАЧЕМ ЭТО НУЖНО И КАК ОНО РАБОТАЕТ ?!
+
+/*
   //ждем, когда придет ответ от сервера и только потом отрисовываем карточки
   Promise.all([
     userApi.getData(),
@@ -89,13 +92,14 @@ function runMyApp(userData) {
   .then(([userData, items]) => {
     userInfo.setUserInfo(userData.name, userData.about);
     userInfo.setAvatar(userData.avatar);
-
+    userID = userData._id;
 //ЧТО ЗДЕСЬ ТО ДОЛЖНО БЫТЬ
+cardList.renderItems(items.reverse());
 
 
   })
   .catch((err) => console.log(err))
-
+*/
 
   //создать новую карточку
   function createCard(data) {
@@ -106,20 +110,20 @@ function runMyApp(userData) {
       userData,
       //лайк по карточке и удаление лайка
       {
-        handleCardLike: (card) => {
-          console.log(card);
+        handleCardLike: (item) => {
+          console.log(item);
           //отправляем запрос поставить лайк на сервер
-          const likesApi = cardListApi.putLike(card.id);
+          const likesApi = cardListApi.toggleLike(item.id, !card.isActive);
           //при успехе - сердечко черное и +1
-          likesApi.then((data) => console.log(data))
+          likesApi.then((card) => card.toggleLike())
           .catch((err) => alert(err));
         },
       },
 
       //удаление карточки
       {
-        handleDeleteCard: (card) => {
-          console.log(card);
+        handleDeleteCard: (item) => {
+          console.log(item);
           //устанавливаем, что произойдет при сабмите формы подтверждения удаления
           preDelPopup.setSubmitAction(() => {});
 
@@ -156,6 +160,7 @@ function runMyApp(userData) {
     ".elements__box",
     cardListApi
   );
+
 
   //добавление карточек с сервера
   createCardsApi
