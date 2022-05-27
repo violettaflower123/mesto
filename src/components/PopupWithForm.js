@@ -57,7 +57,7 @@ class PopupWithForm extends Popup {
       this._handleFormSubmit(this.getInputValues());
 
       //обновить форму
-      this.closePopup();
+      //this.closePopup();
     });
   }
 }

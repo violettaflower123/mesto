@@ -3,13 +3,14 @@ import { Popup } from "./Popup.js";
 export default class PopupWithSubmit extends Popup {
   constructor(popupSelector, { handleFormSubmit }) {
     super(popupSelector);
-    //console.log(popupSelector)
     this._handleFormSubmit = handleFormSubmit;
     this._form = this._popup.querySelector(".popup__form");
+    this._cardData = {};
   }
 
-  setSubmitAction(submitAction) {
-    this._handleFormSubmit = submitAction;
+  openPopup(card) {
+    super.openPopup();
+    this._cardData = card;
   }
 
   setEventListeners() {
@@ -19,8 +20,8 @@ export default class PopupWithSubmit extends Popup {
       evt.preventDefault();
 
       //обновить форму
-      this._handleFormSubmit();
-      this.closePopup();
+      this._handleFormSubmit(this._cardData);
+      //this.closePopup();
     });
   }
 }

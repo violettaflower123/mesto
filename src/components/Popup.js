@@ -13,9 +13,8 @@ class Popup {
   //close popups
   closePopup() {
     this._popup.classList.remove("popup_opened");
-    document.removeEventListener('keydown', this._handleEscClose);
+    document.removeEventListener("keydown", this._handleEscClose);
   }
-
 
   //закрытие попапа при клике на ESC
   _handleEscClose(evt) {
@@ -34,13 +33,11 @@ class Popup {
   }
 
   setEventListeners() {
-    this._popup
-      .querySelector(".popup__close")
-      .addEventListener("click", () => {
-        this.closePopup();
-      });
+    this._popup.querySelector(".popup__close").addEventListener("click", () => {
+      this.closePopup();
+    });
 
-      this._popup.addEventListener("click", this._handleOverlay);
+    this._popup.addEventListener("click", this._handleOverlay);
   }
 }
 

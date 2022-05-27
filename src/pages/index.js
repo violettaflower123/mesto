@@ -1,17 +1,9 @@
 import "./index.css";
 import {
   settings,
-  initialCards,
-  container,
-  profile,
   profileEditButton,
   nameJobPopup,
-  newPlaceForm,
   addingPlaceButton,
-  profileForm,
-  bigImageForm,
-  popupBigImage,
-  textFullScreen,
   placeForm,
   avatarEdit,
   avatarForm,
@@ -53,7 +45,6 @@ userApi
 
 //функция, которая запускает весь сайт с данными пользователя с сервера
 function runMyApp(userData) {
-  //инфо о пользователе
 
   //валидация формы добавления нового места
 
@@ -65,10 +56,6 @@ function runMyApp(userData) {
   const nameFormValidated = new FormValidator(settings, nameJobPopup);
   nameFormValidated.enableValidation();
 
-  //попап подтверждения удаления
-  const preDelPopup = new PopupWithSubmit(".popup_type_delete ", {
-    handleFormSubmit: () => {},
-  });
 
   //получение данных о карточках с сервера
   const cardListApi = new Api({
@@ -81,25 +68,21 @@ function runMyApp(userData) {
 
   const createCardsApi = cardListApi.getData();
 
-  //ЗАЧЕМ ЭТО НУЖНО И КАК ОНО РАБОТАЕТ ?!
+  //попап подтверждения удаления
+  const preDelPopup = new PopupWithSubmit(".popup_type_delete ", {
+    handleFormSubmit: (card) => {
+      cardListApi.deleteCard(card._id)
 
-/*
-  //ждем, когда придет ответ от сервера и только потом отрисовываем карточки
-  Promise.all([
-    userApi.getData(),
-    cardListApi.getData()
-  ])
-  .then(([userData, items]) => {
-    userInfo.setUserInfo(userData.name, userData.about);
-    userInfo.setAvatar(userData.avatar);
-    userID = userData._id;
-//ЧТО ЗДЕСЬ ТО ДОЛЖНО БЫТЬ
-cardList.renderItems(items.reverse());
-
-
-  })
-  .catch((err) => console.log(err))
-*/
+      .then(() => {
+        card.removeCard();
+        preDelPopup.closePopup();
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    },
+  });
+  preDelPopup.setEventListeners();
 
   //создать новую карточку
   function createCard(data) {
@@ -109,42 +92,26 @@ cardList.renderItems(items.reverse());
       handleZoomedPic,
       userData,
       //лайк по карточке и удаление лайка
-      {
-        handleCardLike: (item) => {
-          console.log(item);
-          //отправляем запрос поставить лайк на сервер
-          const likesApi = cardListApi.toggleLike(item.id, !card.isActive);
-          //при успехе - сердечко черное и +1
-          likesApi.then((card) => card.toggleLike())
-          .catch((err) => alert(err));
-        },
-      },
+        {handleCardLike: (likeUpdate, ) => {
+          cardListApi.toggleLike(likeUpdate._id, card.isMyPostLike())
+          .then((newCard) => {
+            card.updateData(newCard);
+            card.toggleLike(likeUpdate._id, card.isMyPostLike());
+          }).catch((err) => console.log(err))
+      }
+    },
 
       //удаление карточки
       {
-        handleDeleteCard: (item) => {
-          console.log(item);
-          //устанавливаем, что произойдет при сабмите формы подтверждения удаления
-          preDelPopup.setSubmitAction(() => {});
-
-          //при клике на корзину открывается попап подтверждения удаления
-          preDelPopup.openPopup();
-          //идет запрос на сервер удалить карточку
-          const delApi = cardListApi.deleteCard(card.id);
-          //при успехе элемент удаляется и закрывается попап подтверждения удаления
-          delApi
-            .then(() => {
-              card.removeCard();
-              preDelPopup.closePopup();
-            })
-            .catch((arr) => alert(arr));
+        handleDeleteCard: (card) => {
+          preDelPopup.openPopup(card);
         },
       }
     );
 
     //создаем карточку
     const cardElement = card.generateCard();
-    card.setCountLikes();
+    //card.setCountLikes();
 
     return cardElement;
   }
@@ -173,13 +140,17 @@ cardList.renderItems(items.reverse());
   const personalInfoForm = new PopupWithForm(".popup_type_name", {
     handleFormSubmit: (data) => {
       const userUpdate = userApi.changeUser(data);
+      personalInfoForm.renderLoading(true);
 
       userUpdate
         .then((data) => {
           personalInfoForm.renderLoading(true);
           userInfo.setUserInfo(data.name, data.about);
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert(err))
+        .finally(() => {
+          personalInfoForm.closePopup();
+        })
     },
   });
 
@@ -204,14 +175,18 @@ cardList.renderItems(items.reverse());
           const card = createCard(data);
           cardList.addItem(card);
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert(err))
+        .finally(() => {
+          placeAddForm.closePopup();
+          placeFormValidated.toggleButtonState();
+        })
     },
   });
 
   placeAddForm.setEventListeners();
   addingPlaceButton.addEventListener("click", () => {
     placeAddForm.openPopup();
-    placeFormValidated.toggleButtonState();
+    //placeFormValidated.toggleButtonState();
     placeFormValidated.clearErrors();
   });
 
@@ -227,12 +202,17 @@ cardList.renderItems(items.reverse());
   const avatarPopup = new PopupWithForm(".popup_type_new-avatar", {
     handleFormSubmit: (data) => {
       const avatarApi = userApi.changeAvatar(data);
+      avatarPopup.renderLoading(true);
 
       avatarApi
         .then((data) => {
           userInfo.setAvatar(data.avatar);
         })
-        .catch((err) => alert(err));
+        .catch((err) => alert(err))
+        .finally(() => {
+          avatarApi.closePopup();
+          avatarPopupValidated.toggleButtonState();
+        })
     },
   });
 
