@@ -496,6 +496,7 @@
   opacity: 1;
   transition: opacity 0.4s ease;
   cursor: pointer;
+  object-fit: cover;
 }
 
 .profile__photo:hover{
@@ -1119,56 +1120,6 @@
   padding-bottom: 0px;
 }
 
-.profile__photo_overlay {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  position: relative;
-  z-index: 1;
-  transition: 0.1s;
-}
-
-.profile__photo_overlay:before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 26px;
-  height: 26px;
-  transform: translate(-50%, -50%);
-  background-image: url(46061f616d9db93c1d8f.png);
-  background-repeat: no-repeat;
-  opacity: 0;
-}
-
-.profile__photo_overlay:hover.profile__photo_overlay:before {
-  opacity: 0.8;
-}
-
-.profile__avatar {
-  display: none;
-  background-image: url(46061f616d9db93c1d8f.png);
-  width: 26px;
-  height: 26px;
-  position: absolute;
-  top: 47px;
-  left: 47px;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.25s, opacity 0.25s linear;
-  z-index: 10;
-}
-
-.profile__avatar:hover {
-  display: block;
-  visibility: visible;
-  opacity: 1;
-}
-
 .popup__form_type_new-avatar {
     min-height: 272px;
   }
@@ -1197,6 +1148,56 @@
   justify-content: center;
   margin-right: 19px;
   margin-top: 15px;
+}
+
+.profile__photo-overlay {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  transition: 0.1s;
+}
+
+.profile__photo-overlay:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 29px;
+  height: 27px;
+  transform: translate(-50%, -50%);
+  background-image: url(46061f616d9db93c1d8f.png);
+  background-repeat: no-repeat;
+  opacity: 0;
+}
+
+.profile__photo-overlay:hover.profile__photo-overlay:before {
+  opacity: 0.8;
+}
+
+.profile__avatar {
+  display: none;
+  background-image: url(46061f616d9db93c1d8f.png);
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  top: 47px;
+  left: 47px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.25s, opacity 0.25s linear;
+  z-index: 10;
+}
+
+.profile__avatar:hover {
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 
