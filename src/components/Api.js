@@ -8,13 +8,20 @@ export default class Api {
     if (res.ok) {
       return res.json();
     }
-    return;
-    Promise.reject("Произошла ошибка");
+    return Promise.reject("Произошла ошибка");
   };
 
-  //получение данных с сервера
-  getData() {
-    return fetch(this._url, {
+  //получение данных о пользователе с сервера
+  getDataUser() {
+    return fetch(`${this._url}users/me`, {
+      method: "GET",
+      headers: this._headers,
+    }).then(this._errorHandler);
+  }
+
+  //получение карточек с сервера
+  getDataInitialCards() {
+    return fetch(`${this._url}cards`, {
       method: "GET",
       headers: this._headers,
     }).then(this._errorHandler);
@@ -22,7 +29,7 @@ export default class Api {
 
   //добавить новую карточку
   addCard(data) {
-    return fetch(this._url, {
+    return fetch(`${this._url}cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
@@ -31,14 +38,14 @@ export default class Api {
 
   //удалить карточку
   deleteCard(id) {
-    return fetch(`${this._url}/${id}`, {
+    return fetch(`${this._url}cards/${id}`, {
       method: "DELETE",
       headers: this._headers,
     }).then(this._errorHandler);
   }
 
   toggleLike(id, status) {
-    return fetch(`${this._url}/${id}/likes`, {
+    return fetch(`${this._url}cards/${id}/likes`, {
       method: status ? "DELETE" : "PUT",
       headers: this._headers,
     }).then(this._errorHandler);
@@ -48,7 +55,7 @@ export default class Api {
 
   //смена аватарки пользователя
   changeAvatar(data) {
-    return fetch(`${this._url}/avatar`, {
+    return fetch(`${this._url}users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),
@@ -57,7 +64,7 @@ export default class Api {
 
   //смена данных пользователя
   changeUser(data) {
-    return fetch(this._url, {
+    return fetch(`${this._url}users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),

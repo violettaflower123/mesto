@@ -25,27 +25,25 @@ const userInfo = new UserInfo({
   avatar: ".profile__photo",
 });
 
-//запрос данных пользователя с сервера
-const userApi = new Api({
-  url: "https://nomoreparties.co/v1/cohort-41/users/me",
+const api = new Api({
+  url: "https://nomoreparties.co/v1/cohort-41/",
   headers: {
     "Content-Type": "application/json",
     authorization: "a0ee0daa-dcb0-4304-ba97-98bdc5d8faf1",
   },
 });
 
-userApi
-  .getData()
+const userApi = api
+  .getDataUser()
   .then((userData) => {
-    userInfo.setUserInfo(userData.name, userData.about);
-    userInfo.setAvatar(userData.avatar);
+    //userInfo.setUserInfo(userData.name, userData.about);
+    //userInfo.setAvatar(userData.avatar);
     runMyApp(userData);
   })
   .catch((err) => console.log(`Ошибка.....: ${err}`));
 
 //функция, которая запускает весь сайт с данными пользователя с сервера
 function runMyApp(userData) {
-
   //валидация формы добавления нового места
 
   const placeFormValidated = new FormValidator(settings, placeForm);
@@ -56,30 +54,22 @@ function runMyApp(userData) {
   const nameFormValidated = new FormValidator(settings, nameJobPopup);
   nameFormValidated.enableValidation();
 
-
-  //получение данных о карточках с сервера
-  const cardListApi = new Api({
-    url: "https://mesto.nomoreparties.co/v1/cohort-41/cards",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: "a0ee0daa-dcb0-4304-ba97-98bdc5d8faf1",
-    },
-  });
-
-  const createCardsApi = cardListApi.getData();
+  //запрос всех карточек с сервера
+  const cardListApi = api.getDataInitialCards();
 
   //попап подтверждения удаления
   const preDelPopup = new PopupWithSubmit(".popup_type_delete ", {
     handleFormSubmit: (card) => {
-      cardListApi.deleteCard(card._id)
+      api
+        .deleteCard(card._id)
 
-      .then(() => {
-        card.removeCard();
-        preDelPopup.closePopup();
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        .then(() => {
+          card.removeCard();
+          preDelPopup.closePopup();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   });
   preDelPopup.setEventListeners();
@@ -92,14 +82,17 @@ function runMyApp(userData) {
       handleZoomedPic,
       userData,
       //лайк по карточке и удаление лайка
-        {handleCardLike: (likeUpdate, ) => {
-          cardListApi.toggleLike(likeUpdate._id, card.isMyPostLike())
-          .then((newCard) => {
-            card.updateData(newCard);
-            card.toggleLike(likeUpdate._id, card.isMyPostLike());
-          }).catch((err) => console.log(err))
-      }
-    },
+      {
+        handleCardLike: (likeUpdate) => {
+          api
+            .toggleLike(likeUpdate._id, card.isMyPostLike())
+            .then((newCard) => {
+              card.updateData(newCard);
+              card.toggleLike(likeUpdate._id, card.isMyPostLike());
+            })
+            .catch((err) => console.log(err));
+        },
+      },
 
       //удаление карточки
       {
@@ -124,22 +117,42 @@ function runMyApp(userData) {
         cardList.addItem(cardElement);
       },
     },
-    ".elements__box",
-    cardListApi
+    ".elements__box"
   );
 
-
+  /*
   //добавление карточек с сервера
-  createCardsApi
+  cardListApi
     .then((items) => {
       cardList.renderItems(items.reverse());
     })
     .catch((err) => alert(err));
+*/
+  Promise.all([
+    //в Promise.all передаем массив промисов которые нужно выполнить
+    api.getDataUser(),
+    api.getDataInitialCards(),
+  ])
+
+    .then(([userData, items]) => {
+      //попадаем сюда когда оба промиса будут выполнены
+
+      // у нас есть все нужные данные, отрисовываем страницу
+      userInfo.setUserInfo(userData.name, userData.about);
+      userInfo.setAvatar(userData.avatar);
+      cardList.renderItems(items.reverse());
+    })
+
+    .catch((err) => {
+      //попадаем сюда если один из промисов завершаться ошибкой
+
+      console.log(err);
+    });
 
   //редактирование информации о пользователе
   const personalInfoForm = new PopupWithForm(".popup_type_name", {
     handleFormSubmit: (data) => {
-      const userUpdate = userApi.changeUser(data);
+      const userUpdate = api.changeUser(data);
       personalInfoForm.renderLoading(true);
 
       userUpdate
@@ -147,10 +160,10 @@ function runMyApp(userData) {
           personalInfoForm.renderLoading(true);
           userInfo.setUserInfo(data.name, data.about);
         })
-        .catch((err) => alert(err))
-        .finally(() => {
+        .then(() => {
           personalInfoForm.closePopup();
         })
+        .catch((err) => alert(err));
     },
   });
 
@@ -168,18 +181,18 @@ function runMyApp(userData) {
   //добавление новой карточки
   const placeAddForm = new PopupWithForm(".popup_type_place", {
     handleFormSubmit: (data) => {
-      const newCardApi = cardListApi.addCard(data);
+      const newCardApi = api.addCard(data);
       placeAddForm.renderLoading(true);
       newCardApi
         .then((data) => {
           const card = createCard(data);
           cardList.addItem(card);
         })
-        .catch((err) => alert(err))
-        .finally(() => {
+        .then(() => {
           placeAddForm.closePopup();
           placeFormValidated.toggleButtonState();
         })
+        .catch((err) => alert(err));
     },
   });
 
@@ -201,18 +214,18 @@ function runMyApp(userData) {
   //попап для изменения аватарки пользователя
   const avatarPopup = new PopupWithForm(".popup_type_new-avatar", {
     handleFormSubmit: (data) => {
-      const avatarApi = userApi.changeAvatar(data);
+      const avatarApi = api.changeAvatar(data);
       avatarPopup.renderLoading(true);
 
       avatarApi
         .then((data) => {
           userInfo.setAvatar(data.avatar);
         })
-        .catch((err) => alert(err))
-        .finally(() => {
-          avatarApi.closePopup();
+        .then(() => {
+          avatarPopup.closePopup();
           avatarPopupValidated.toggleButtonState();
         })
+        .catch((err) => alert(err));
     },
   });
 
