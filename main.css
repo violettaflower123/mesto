@@ -884,6 +884,7 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  background-repeat: no-repeat;
 }
 
 .popup__close:hover {
@@ -1108,7 +1109,7 @@
 @media screen and (max-width: 768px) {
   .popup__form_type_delete {
     max-width: 282px;
-    min-height: 322px;
+    max-height: 322px;
   }
 }
 
